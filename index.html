@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC Study Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #f5f5f4; --bg3: #f0efeb;
+    --text: #1a1a18; --text2: #6b6b67; --text3: #9b9b97;
+    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
+    --info-bg: #e6f1fb; --info-text: #0c447c; --info-border: #85b7eb;
+    --success-bg: #eaf3de; --success-text: #3b6d11; --success-border: #97c459;
+    --danger-bg: #fcebeb; --danger-text: #791f1f; --danger-border: #f09595;
+    --radius: 8px; --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a; --bg2: #252523; --bg3: #2e2e2b;
+      --text: #f0efe9; --text2: #a0a09b; --text3: #6b6b67;
+      --border: rgba(255,255,255,0.12); --border2: rgba(255,255,255,0.22);
+      --info-bg: #042c53; --info-text: #b5d4f4; --info-border: #185fa5;
+      --success-bg: #173404; --success-text: #c0dd97; --success-border: #3b6d11;
+      --danger-bg: #501313; --danger-text: #f7c1c1; --danger-border: #a32d2d;
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+  .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--text3); margin-bottom: 1.5rem; }
+  .tab-row { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+  .tab { padding: 6px 14px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); }
+  .tab.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
+  .section { display: none; } .section.visible { display: block; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .metric { background: var(--bg2); border-radius: var(--radius); padding: 14px 16px; }
+  .metric-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
+  .metric-val { font-size: 22px; font-weight: 500; }
+  .metric-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
+  .section-title { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .log-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: end; }
+  .field-label { font-size: 12px; color: var(--text2); margin-bottom: 5px; }
+  select, input[type=number], input[type=date], input[type=text] {
+    width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit;
+  }
+  .mood-row { display: flex; gap: 8px; margin-top: 4px; }
+  .mood-btn { flex: 1; padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); text-align: center; font-family: inherit; }
+  .mood-btn.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
+  .btn { width: 100%; padding: 9px; background: var(--bg); border: 0.5px solid var(--border2); border-radius: var(--radius); cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text); margin-top: 14px; font-family: inherit; }
+  .btn:hover { background: var(--bg2); }
+  .btn-danger { background: var(--bg); border: 0.5px solid var(--danger-border); color: var(--danger-text); border-radius: var(--radius); padding: 6px 14px; cursor: pointer; font-size: 13px; font-family: inherit; }
+  .subjects-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .subj-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
+  .subj-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .subj-name { font-size: 14px; font-weight: 500; }
+  .pbar-bg { height: 5px; background: var(--bg2); border-radius: 3px; margin-bottom: 12px; }
+  .pbar-fill { height: 5px; border-radius: 3px; transition: width 0.4s; }
+  .topics { display: flex; flex-direction: column; gap: 6px; }
+  .topic-row { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+  .topic-row input[type=checkbox] { width: 14px; height: 14px; cursor: pointer; flex-shrink: 0; accent-color: #185fa5; }
+  .topic-label { font-size: 13px; color: var(--text2); }
+  .topic-label.done { color: var(--text3); text-decoration: line-through; }
+  .hist-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
+  .hist-row:last-child { border-bottom: none; }
+  .hist-date { font-size: 12px; color: var(--text3); min-width: 70px; }
+  .hist-subj { font-size: 13px; flex: 1; }
+  .hist-hrs { font-size: 13px; font-weight: 500; min-width: 44px; text-align: right; }
+  .mood-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .mood-5{background:#1D9E75}.mood-4{background:#378ADD}.mood-3{background:#BA7517}.mood-2{background:#D85A30}.mood-1{background:#E24B4A}
+  .del-btn { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 0 4px; line-height: 1; }
+  .del-btn:hover { color: var(--danger-text); }
+  .empty { font-size: 13px; color: var(--text3); padding: 8px 0; }
+  .toast { position: fixed; bottom: 24px; right: 24px; padding: 10px 16px; border-radius: var(--radius); font-size: 13px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+  .toast.success { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
+  .toast.error { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
+  .toast.show { opacity: 1; }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--info-text); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-overlay { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
+  @media (max-width: 600px) {
+    .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .subjects-grid { grid-template-columns: 1fr; }
+    .log-row { grid-template-columns: 1fr; }
+    .mood-btn { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>UPSC study tracker</h1>
+  <p class="subtitle" id="user-id-display">Loading...</p>
+
+  <div class="tab-row">
+    <button class="tab active" onclick="showTab('overview')">Overview</button>
+    <button class="tab" onclick="showTab('topics')">Topics</button>
+    <button class="tab" onclick="showTab('log')">Daily log</button>
+  </div>
+
+  <div id="tab-overview" class="section visible">
+    <div class="metric-grid">
+      <div class="metric"><div class="metric-label">Total hours logged</div><div class="metric-val" id="m-total">—</div><div class="metric-sub">across all subjects</div></div>
+      <div class="metric"><div class="metric-label">Today's hours</div><div class="metric-val" id="m-today">—</div><div class="metric-sub" id="m-today-sub">loading...</div></div>
+      <div class="metric"><div class="metric-label">Topics covered</div><div class="metric-val" id="m-topics">—</div><div class="metric-sub" id="m-topics-sub">loading...</div></div>
+      <div class="metric"><div class="metric-label">Avg productivity</div><div class="metric-val" id="m-mood">—</div><div class="metric-sub">out of 5</div></div>
+    </div>
+    <div class="section-title">Recent log</div>
+    <div class="card" id="log-history"><div class="loading-overlay"><span class="spinner"></span>Loading entries...</div></div>
+  </div>
+
+  <div id="tab-topics" class="section">
+    <div class="subjects-grid" id="subjects-grid"><div class="loading-overlay" style="grid-column:1/-1"><span class="spinner"></span>Loading topics...</div></div>
+  </div>
+
+  <div id="tab-log" class="section">
+    <div class="card">
+      <div class="section-title" style="margin-bottom:16px">Log a study session</div>
+      <div class="log-row">
+        <div><div class="field-label">Subject</div><select id="log-subj"></select></div>
+        <div><div class="field-label">Hours spent</div><input type="number" id="log-hrs" min="0.25" max="16" step="0.25" value="1"></div>
+        <div><div class="field-label">Date</div><input type="date" id="log-date"></div>
+      </div>
+      <div style="margin-top:14px">
+        <div class="field-label">How productive did you feel? (1 = low, 5 = excellent)</div>
+        <div class="mood-row">
+          <button class="mood-btn" onclick="setMood(1)">1 — low</button>
+          <button class="mood-btn" onclick="setMood(2)">2 — okay</button>
+          <button class="mood-btn" onclick="setMood(3)">3 — good</button>
+          <button class="mood-btn" onclick="setMood(4)">4 — great</button>
+          <button class="mood-btn" onclick="setMood(5)">5 — excellent</button>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <div class="field-label">Notes (optional)</div>
+        <input type="text" id="log-note" placeholder="What did you cover today?">
+      </div>
+      <button class="btn" onclick="addLog()">Add entry</button>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-top:8px">
+      <button class="btn-danger" onclick="clearAllData()">Clear all my data</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://qatcgxeemzptmxzgmiya.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhdGNneGVlbXpwdG14emdtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4ODE5NTUsImV4cCI6MjA5MTQ1Nzk1NX0.mAKIHA9ogSLh7CsFfyP5HxEDr6xZ9DndK-h9y3pTnXM';
+const { createClient } = supabase;
+const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function getUserId() {
+  let id = localStorage.getItem('upsc_user_id');
+  if (!id) { id = 'user_' + Math.random().toString(36).slice(2, 11); localStorage.setItem('upsc_user_id', id); }
+  return id;
+}
+const USER_ID = getUserId();
+document.getElementById('user-id-display').textContent = 'Your tracker ID: ' + USER_ID;
+
+const SUBJECTS = [
+  {id:'history',name:'History',color:'#185FA5',topics:['Ancient India','Medieval India','Modern India','World history','Art & culture']},
+  {id:'geography',name:'Geography',color:'#1D9E75',topics:['Indian geography','Physical geography','World geography']},
+  {id:'polity',name:'Polity & Governance',color:'#534AB7',topics:['Indian polity','Governance']},
+  {id:'economics',name:'Economics',color:'#BA7517',topics:['Indian economy','Economic concepts','Budget & finance','International economics']},
+  {id:'environment',name:'Environment & Ecology',color:'#3B6D11',topics:['Static environment','Current affairs — environment']},
+  {id:'science',name:'Science & Technology',color:'#993556',topics:['Physics','Chemistry','Biology','Tech & innovation']},
+  {id:'current',name:'Current Affairs',color:'#993C1D',topics:['National','International','Reports & indices','Schemes & policies']},
+  {id:'ethics',name:'Ethics, Integrity & Aptitude',color:'#5F5E5A',topics:['Ethical theories','Attitude & aptitude','Emotional intelligence','Public service values','Case studies']},
+  {id:'essay',name:'Essay',color:'#0C447C',topics:['Essay writing practice','Philosophical themes','Social themes','Economic themes']},
+  {id:'csat',name:'CSAT',color:'#791F1F',topics:['Reading comprehension','Data interpretation','Logical reasoning','Basic numeracy']},
+  {id:'sociology',name:'Sociology (Optional)',color:'#3C3489',topics:['Sociological thinkers','Social institutions','Social stratification','Social change','Indian society','Rural & agrarian society','Urban sociology','Tribal societies']},
+];
+
+let logs = [];
+let topicState = {};
+let selectedMood = 0;
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelector(`[onclick="showTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-' + name).classList.add('visible');
+}
+
+function setMood(v) {
+  selectedMood = v;
+  document.querySelectorAll('.mood-btn').forEach((b,i) => b.classList.toggle('active', i+1 === v));
+}
+
+async function loadLogs() {
+  const { data, error } = await db.from('logs').select('*').eq('user_id', USER_ID).order('date', {ascending: false}).order('created_at', {ascending: false}).limit(50);
+  if (error) { showToast('Error loading logs', 'error'); return; }
+  logs = data || [];
+  updateMetrics();
+  renderHistory();
+}
+
+async function loadTopics() {
+  const { data, error } = await db.from('topics').select('*').eq('user_id', USER_ID);
+  if (error) { showToast('Error loading topics', 'error'); return; }
+  topicState = {};
+  SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
+  (data || []).forEach(row => { if (topicState[row.subject_id]) topicState[row.subject_id][row.topic] = row.done; });
+  renderSubjects();
+  updateMetrics();
+}
+
+async function addLog() {
+  const subj = document.getElementById('log-subj').value;
+  const hrs = parseFloat(document.getElementById('log-hrs').value);
+  const date = document.getElementById('log-date').value;
+  const note = document.getElementById('log-note').value.trim();
+  if (!subj || !hrs || !date || !selectedMood) { showToast('Fill in all fields and select a productivity rating', 'error'); return; }
+  const { data, error } = await db.from('logs').insert([{ user_id: USER_ID, subject: subj, hours: hrs, date, mood: selectedMood, note }]).select().single();
+  if (error) { showToast('Error saving entry', 'error'); return; }
+  logs.unshift(data);
+  document.getElementById('log-note').value = '';
+  selectedMood = 0;
+  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+  updateMetrics();
+  renderHistory();
+  showToast('Entry saved');
+}
+
+async function deleteLog(id) {
+  const { error } = await db.from('logs').delete().eq('id', id).eq('user_id', USER_ID);
+  if (error) { showToast('Error deleting entry', 'error'); return; }
+  logs = logs.filter(l => l.id !== id);
+  updateMetrics();
+  renderHistory();
+  showToast('Entry deleted');
+}
+
+async function toggleTopic(sid, topic, val) {
+  const { error } = await db.from('topics').upsert({ user_id: USER_ID, subject_id: sid, topic, done: val, updated_at: new Date().toISOString() }, { onConflict: 'user_id,subject_id,topic' });
+  if (error) { showToast('Error saving topic', 'error'); return; }
+  topicState[sid][topic] = val;
+  updateMetrics();
+  renderSubjects();
+  showToast(val ? 'Topic marked done' : 'Topic unmarked');
+}
+
+async function clearAllData() {
+  if (!confirm('This will permanently delete all your logs and topic progress from the database. Are you sure?')) return;
+  await db.from('logs').delete().eq('user_id', USER_ID);
+  await db.from('topics').delete().eq('user_id', USER_ID);
+  logs = [];
+  SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
+  updateMetrics();
+  renderHistory();
+  renderSubjects();
+  showToast('All data cleared');
+}
+
+function updateMetrics() {
+  const total = logs.reduce((a,l) => a + parseFloat(l.hours), 0);
+  document.getElementById('m-total').textContent = total.toFixed(1);
+  const today = new Date().toISOString().split('T')[0];
+  const todayLogs = logs.filter(l => l.date === today);
+  const todayHrs = todayLogs.reduce((a,l) => a + parseFloat(l.hours), 0);
+  document.getElementById('m-today').textContent = todayHrs.toFixed(1);
+  document.getElementById('m-today-sub').textContent = todayLogs.length ? todayLogs.map(l => SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', ') : 'nothing today';
+  let total_t = 0, done_t = 0;
+  SUBJECTS.forEach(s => s.topics.forEach(t => { total_t++; if (topicState[s.id]?.[t]) done_t++; }));
+  document.getElementById('m-topics').textContent = total_t ? Math.round(done_t/total_t*100) + '%' : '0%';
+  document.getElementById('m-topics-sub').textContent = `${done_t} of ${total_t} topics`;
+  if (logs.length) {
+    const avg = logs.reduce((a,l) => a + l.mood, 0) / logs.length;
+    document.getElementById('m-mood').textContent = avg.toFixed(1);
+  } else { document.getElementById('m-mood').textContent = '—'; }
+}
+
+function renderHistory() {
+  const el = document.getElementById('log-history');
+  if (!logs.length) { el.innerHTML = '<div class="empty">No entries yet — use the Daily log tab to get started.</div>'; return; }
+  el.innerHTML = logs.slice(0,15).map(l => {
+    const s = SUBJECTS.find(x => x.id === l.subject);
+    const d = new Date(l.date + 'T00:00:00').toLocaleDateString('en-IN', {day:'numeric',month:'short'});
+    return `<div class="hist-row">
+      <div class="hist-date">${d}</div>
+      <div class="hist-subj">${s?.name || l.subject}${l.note ? `<span style="font-size:11px;color:var(--text3);margin-left:6px">— ${l.note}</span>` : ''}</div>
+      <div class="hist-hrs">${parseFloat(l.hours).toFixed(1)}h</div>
+      <div class="mood-dot mood-${l.mood}" title="Productivity: ${l.mood}/5"></div>
+      <button class="del-btn" onclick="deleteLog('${l.id}')" title="Delete">×</button>
+    </div>`;
+  }).join('');
+}
+
+function renderSubjects() {
+  const grid = document.getElementById('subjects-grid');
+  grid.innerHTML = SUBJECTS.map(s => {
+    const total = s.topics.length;
+    const done = s.topics.filter(t => topicState[s.id]?.[t]).length;
+    const pct = total ? Math.round(done/total*100) : 0;
+    return `<div class="subj-card">
+      <div class="subj-header">
+        <div class="subj-name">${s.name}</div>
+        <div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div>
+      </div>
+      <div class="pbar-bg"><div class="pbar-fill" style="width:${pct}%;background:${s.color}"></div></div>
+      <div class="topics">${s.topics.map(t => `
+        <label class="topic-row">
+          <input type="checkbox" ${topicState[s.id]?.[t] ? 'checked' : ''} onchange="toggleTopic('${s.id}','${t.replace(/'/g,"\\'")}',this.checked)">
+          <span class="topic-label ${topicState[s.id]?.[t] ? 'done' : ''}">${t}</span>
+        </label>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function init() {
+  const sel = document.getElementById('log-subj');
+  SUBJECTS.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = s.name; sel.appendChild(o); });
+  document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+  await Promise.all([loadLogs(), loadTopics()]);
+}
+init();
+</script>
+</body>
+</html>
