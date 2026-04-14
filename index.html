@@ -27,20 +27,50 @@
     }
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
-  .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
-  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-  .subtitle { font-size: 13px; color: var(--text3); margin-bottom: 1.5rem; }
+
+  /* Auth screen */
+  .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+  .auth-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 400px; }
+  .auth-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .auth-sub { font-size: 13px; color: var(--text2); margin-bottom: 1.5rem; }
+  .auth-tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+  .auth-tab { flex: 1; padding: 7px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); text-align: center; font-family: inherit; }
+  .auth-tab.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; }
+  .field input { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit; }
+  .auth-btn { width: 100%; padding: 10px; background: var(--info-bg); border: 0.5px solid var(--info-border); border-radius: var(--radius); cursor: pointer; font-size: 14px; font-weight: 500; color: var(--info-text); font-family: inherit; margin-top: 4px; }
+  .auth-btn:hover { opacity: 0.85; }
+  .auth-msg { font-size: 13px; margin-top: 12px; padding: 10px 12px; border-radius: var(--radius); display: none; }
+  .auth-msg.error { background: var(--danger-bg); color: var(--danger-text); display: block; }
+  .auth-msg.success { background: var(--success-bg); color: var(--success-text); display: block; }
+
+  /* App */
+  .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; display: none; }
+  .app-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+  .app-title { font-size: 20px; font-weight: 500; }
+  .app-email { font-size: 13px; color: var(--text3); margin-top: 2px; }
+  .signout-btn { background: none; border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 6px 12px; cursor: pointer; font-size: 13px; color: var(--text2); font-family: inherit; }
+  .signout-btn:hover { background: var(--bg2); }
+
+  /* Tabs */
   .tab-row { display: flex; gap: 6px; margin-bottom: 1.5rem; }
-  .tab { padding: 6px 14px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); }
+  .tab { padding: 6px 14px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); font-family: inherit; }
   .tab.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
   .section { display: none; } .section.visible { display: block; }
+
+  /* Metrics */
   .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
   .metric { background: var(--bg2); border-radius: var(--radius); padding: 14px 16px; }
   .metric-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
   .metric-val { font-size: 22px; font-weight: 500; }
   .metric-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+  /* Cards */
   .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
   .section-title { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+
+  /* Form elements */
   .log-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: end; }
   .field-label { font-size: 12px; color: var(--text2); margin-bottom: 5px; }
   select, input[type=number], input[type=date], input[type=text] {
@@ -53,6 +83,8 @@
   .btn { width: 100%; padding: 9px; background: var(--bg); border: 0.5px solid var(--border2); border-radius: var(--radius); cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text); margin-top: 14px; font-family: inherit; }
   .btn:hover { background: var(--bg2); }
   .btn-danger { background: var(--bg); border: 0.5px solid var(--danger-border); color: var(--danger-text); border-radius: var(--radius); padding: 6px 14px; cursor: pointer; font-size: 13px; font-family: inherit; }
+
+  /* Subjects */
   .subjects-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
   .subj-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
   .subj-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -64,6 +96,8 @@
   .topic-row input[type=checkbox] { width: 14px; height: 14px; cursor: pointer; flex-shrink: 0; accent-color: #185fa5; }
   .topic-label { font-size: 13px; color: var(--text2); }
   .topic-label.done { color: var(--text3); text-decoration: line-through; }
+
+  /* History */
   .hist-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
   .hist-row:last-child { border-bottom: none; }
   .hist-date { font-size: 12px; color: var(--text3); min-width: 70px; }
@@ -74,30 +108,72 @@
   .del-btn { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 0 4px; line-height: 1; }
   .del-btn:hover { color: var(--danger-text); }
   .empty { font-size: 13px; color: var(--text3); padding: 8px 0; }
+
+  /* Toast */
   .toast { position: fixed; bottom: 24px; right: 24px; padding: 10px 16px; border-radius: var(--radius); font-size: 13px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
   .toast.success { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
   .toast.error { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
   .toast.show { opacity: 1; }
+
+  /* Spinner */
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--info-text); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-overlay { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
+
+  /* Report tab */
+  .report-info { background: var(--bg2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 1.25rem; font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .report-info strong { color: var(--text); font-weight: 500; }
+
   @media (max-width: 600px) {
     .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .subjects-grid { grid-template-columns: 1fr; }
     .log-row { grid-template-columns: 1fr; }
     .mood-btn { font-size: 11px; }
+    .mood-row { flex-wrap: wrap; }
   }
 </style>
 </head>
 <body>
-<div class="app">
-  <h1>UPSC study tracker</h1>
-  <p class="subtitle" id="user-id-display">Loading...</p>
+
+<!-- Auth screen -->
+<div class="auth-wrap" id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-title">UPSC study tracker</div>
+    <div class="auth-sub">Sign in to access your study dashboard from any device.</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign in</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup')">Create account</button>
+    </div>
+    <div id="auth-signin">
+      <div class="field"><label>Email</label><input type="email" id="si-email" placeholder="you@example.com"></div>
+      <div class="field"><label>Password</label><input type="password" id="si-pass" placeholder="••••••••"></div>
+      <button class="auth-btn" onclick="signIn()">Sign in</button>
+      <div class="auth-msg" id="si-msg"></div>
+    </div>
+    <div id="auth-signup" style="display:none">
+      <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="you@example.com"></div>
+      <div class="field"><label>Password</label><input type="password" id="su-pass" placeholder="At least 6 characters"></div>
+      <button class="auth-btn" onclick="signUp()">Create account</button>
+      <div class="auth-msg" id="su-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Main app -->
+<div class="app" id="app-screen">
+  <div class="app-header">
+    <div>
+      <div class="app-title">UPSC study tracker</div>
+      <div class="app-email" id="app-email"></div>
+    </div>
+    <button class="signout-btn" onclick="signOut()">Sign out</button>
+  </div>
 
   <div class="tab-row">
     <button class="tab active" onclick="showTab('overview')">Overview</button>
     <button class="tab" onclick="showTab('topics')">Topics</button>
     <button class="tab" onclick="showTab('log')">Daily log</button>
+    <button class="tab" onclick="showTab('reports')">Reports</button>
   </div>
 
   <div id="tab-overview" class="section visible">
@@ -112,7 +188,9 @@
   </div>
 
   <div id="tab-topics" class="section">
-    <div class="subjects-grid" id="subjects-grid"><div class="loading-overlay" style="grid-column:1/-1"><span class="spinner"></span>Loading topics...</div></div>
+    <div class="subjects-grid" id="subjects-grid">
+      <div class="loading-overlay" style="grid-column:1/-1"><span class="spinner"></span>Loading topics...</div>
+    </div>
   </div>
 
   <div id="tab-log" class="section">
@@ -143,6 +221,20 @@
       <button class="btn-danger" onclick="clearAllData()">Clear all my data</button>
     </div>
   </div>
+
+  <div id="tab-reports" class="section">
+    <div class="report-info">
+      <strong>Weekly email reports</strong><br><br>
+      Every Monday morning, you'll receive a summary of the previous week's study activity — total hours logged, subjects covered, productivity rating, and overall topic progress.<br><br>
+      Reports are sent automatically to <strong id="report-email"></strong>. No setup needed.
+    </div>
+    <div class="card">
+      <div class="section-title" style="margin-bottom:16px">Send a test report</div>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Send yourself a report right now to see what the weekly email looks like.</p>
+      <button class="btn" style="margin-top:0" onclick="sendTestReport()">Send test report to my email</button>
+      <div class="auth-msg" id="report-msg" style="margin-top:12px"></div>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -152,14 +244,6 @@ const SUPABASE_URL = 'https://qatcgxeemzptmxzgmiya.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhdGNneGVlbXpwdG14emdtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4ODE5NTUsImV4cCI6MjA5MTQ1Nzk1NX0.mAKIHA9ogSLh7CsFfyP5HxEDr6xZ9DndK-h9y3pTnXM';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-function getUserId() {
-  let id = localStorage.getItem('upsc_user_id');
-  if (!id) { id = 'user_' + Math.random().toString(36).slice(2, 11); localStorage.setItem('upsc_user_id', id); }
-  return id;
-}
-const USER_ID = getUserId();
-document.getElementById('user-id-display').textContent = 'Your tracker ID: ' + USER_ID;
 
 const SUBJECTS = [
   {id:'history',name:'History',color:'#185FA5',topics:['Ancient India','Medieval India','Modern India','World history','Art & culture']},
@@ -175,44 +259,72 @@ const SUBJECTS = [
   {id:'sociology',name:'Sociology (Optional)',color:'#3C3489',topics:['Sociological thinkers','Social institutions','Social stratification','Social change','Indian society','Rural & agrarian society','Urban sociology','Tribal societies']},
 ];
 
-let logs = [];
-let topicState = {};
-let selectedMood = 0;
+let logs = [], topicState = {}, selectedMood = 0, currentUser = null;
 
-function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.classList.remove('show'), 2500);
+// ── Auth ──────────────────────────────────────────────────────────────────────
+
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='signin')||(i===1&&tab==='signup')));
+  document.getElementById('auth-signin').style.display = tab==='signin' ? 'block' : 'none';
+  document.getElementById('auth-signup').style.display = tab==='signup' ? 'block' : 'none';
 }
 
-function showTab(name) {
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
-  document.querySelector(`[onclick="showTab('${name}')"]`).classList.add('active');
-  document.getElementById('tab-' + name).classList.add('visible');
+function showAuthMsg(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg; el.className = 'auth-msg ' + type;
 }
 
-function setMood(v) {
-  selectedMood = v;
-  document.querySelectorAll('.mood-btn').forEach((b,i) => b.classList.toggle('active', i+1 === v));
+async function signIn() {
+  const email = document.getElementById('si-email').value.trim();
+  const pass = document.getElementById('si-pass').value;
+  if (!email || !pass) { showAuthMsg('si-msg','Please enter your email and password.','error'); return; }
+  const { error } = await db.auth.signInWithPassword({ email, password: pass });
+  if (error) { showAuthMsg('si-msg', error.message, 'error'); return; }
 }
+
+async function signUp() {
+  const email = document.getElementById('su-email').value.trim();
+  const pass = document.getElementById('su-pass').value;
+  if (!email || !pass) { showAuthMsg('su-msg','Please enter your email and password.','error'); return; }
+  if (pass.length < 6) { showAuthMsg('su-msg','Password must be at least 6 characters.','error'); return; }
+  const { error } = await db.auth.signUp({ email, password: pass });
+  if (error) { showAuthMsg('su-msg', error.message, 'error'); return; }
+  showAuthMsg('su-msg', 'Account created! You are now signed in.', 'success');
+}
+
+async function signOut() {
+  await db.auth.signOut();
+  currentUser = null; logs = []; topicState = {};
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+}
+
+db.auth.onAuthStateChange(async (event, session) => {
+  if (session?.user) {
+    currentUser = session.user;
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'block';
+    document.getElementById('app-email').textContent = currentUser.email;
+    document.getElementById('report-email').textContent = currentUser.email;
+    await Promise.all([loadLogs(), loadTopics()]);
+  }
+});
+
+// ── Data ──────────────────────────────────────────────────────────────────────
 
 async function loadLogs() {
-  const { data, error } = await db.from('logs').select('*').eq('user_id', USER_ID).order('date', {ascending: false}).order('created_at', {ascending: false}).limit(50);
-  if (error) { showToast('Error loading logs', 'error'); return; }
+  const { data, error } = await db.from('logs').select('*').eq('user_id', currentUser.id).order('date',{ascending:false}).order('created_at',{ascending:false}).limit(50);
+  if (error) { showToast('Error loading logs','error'); return; }
   logs = data || [];
-  updateMetrics();
-  renderHistory();
+  updateMetrics(); renderHistory();
 }
 
 async function loadTopics() {
-  const { data, error } = await db.from('topics').select('*').eq('user_id', USER_ID);
-  if (error) { showToast('Error loading topics', 'error'); return; }
-  topicState = {};
+  const { data, error } = await db.from('topics').select('*').eq('user_id', currentUser.id);
+  if (error) { showToast('Error loading topics','error'); return; }
   SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
-  (data || []).forEach(row => { if (topicState[row.subject_id]) topicState[row.subject_id][row.topic] = row.done; });
-  renderSubjects();
-  updateMetrics();
+  (data||[]).forEach(r => { if (topicState[r.subject_id]) topicState[r.subject_id][r.topic] = r.done; });
+  renderSubjects(); updateMetrics();
 }
 
 async function addLog() {
@@ -220,75 +332,112 @@ async function addLog() {
   const hrs = parseFloat(document.getElementById('log-hrs').value);
   const date = document.getElementById('log-date').value;
   const note = document.getElementById('log-note').value.trim();
-  if (!subj || !hrs || !date || !selectedMood) { showToast('Fill in all fields and select a productivity rating', 'error'); return; }
-  const { data, error } = await db.from('logs').insert([{ user_id: USER_ID, subject: subj, hours: hrs, date, mood: selectedMood, note }]).select().single();
-  if (error) { showToast('Error saving entry', 'error'); return; }
+  if (!subj||!hrs||!date||!selectedMood) { showToast('Fill in all fields and select a productivity rating','error'); return; }
+  const { data, error } = await db.from('logs').insert([{user_id:currentUser.id,subject:subj,hours:hrs,date,mood:selectedMood,note}]).select().single();
+  if (error) { showToast('Error saving entry','error'); return; }
   logs.unshift(data);
   document.getElementById('log-note').value = '';
   selectedMood = 0;
   document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
-  updateMetrics();
-  renderHistory();
-  showToast('Entry saved');
+  updateMetrics(); renderHistory(); showToast('Entry saved');
 }
 
 async function deleteLog(id) {
-  const { error } = await db.from('logs').delete().eq('id', id).eq('user_id', USER_ID);
-  if (error) { showToast('Error deleting entry', 'error'); return; }
+  const { error } = await db.from('logs').delete().eq('id',id).eq('user_id',currentUser.id);
+  if (error) { showToast('Error deleting entry','error'); return; }
   logs = logs.filter(l => l.id !== id);
-  updateMetrics();
-  renderHistory();
-  showToast('Entry deleted');
+  updateMetrics(); renderHistory(); showToast('Entry deleted');
 }
 
 async function toggleTopic(sid, topic, val) {
-  const { error } = await db.from('topics').upsert({ user_id: USER_ID, subject_id: sid, topic, done: val, updated_at: new Date().toISOString() }, { onConflict: 'user_id,subject_id,topic' });
-  if (error) { showToast('Error saving topic', 'error'); return; }
+  const { error } = await db.from('topics').upsert({user_id:currentUser.id,subject_id:sid,topic,done:val,updated_at:new Date().toISOString()},{onConflict:'user_id,subject_id,topic'});
+  if (error) { showToast('Error saving topic','error'); return; }
   topicState[sid][topic] = val;
-  updateMetrics();
-  renderSubjects();
+  updateMetrics(); renderSubjects();
   showToast(val ? 'Topic marked done' : 'Topic unmarked');
 }
 
 async function clearAllData() {
-  if (!confirm('This will permanently delete all your logs and topic progress from the database. Are you sure?')) return;
-  await db.from('logs').delete().eq('user_id', USER_ID);
-  await db.from('topics').delete().eq('user_id', USER_ID);
+  if (!confirm('This will permanently delete all your logs and topic progress. Are you sure?')) return;
+  await db.from('logs').delete().eq('user_id',currentUser.id);
+  await db.from('topics').delete().eq('user_id',currentUser.id);
   logs = [];
-  SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
-  updateMetrics();
-  renderHistory();
-  renderSubjects();
-  showToast('All data cleared');
+  SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t]=false); });
+  updateMetrics(); renderHistory(); renderSubjects(); showToast('All data cleared');
+}
+
+// ── Reports ───────────────────────────────────────────────────────────────────
+
+async function sendTestReport() {
+  const btn = document.querySelector('#tab-reports .btn');
+  const msgEl = document.getElementById('report-msg');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  msgEl.className = 'auth-msg'; msgEl.style.display = 'none';
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/weekly-report`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+      body: JSON.stringify({ user_id: currentUser.id, email: currentUser.email, test: true })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Unknown error');
+    msgEl.textContent = 'Report sent! Check your inbox.';
+    msgEl.className = 'auth-msg success';
+    msgEl.style.display = 'block';
+  } catch(e) {
+    msgEl.textContent = 'Failed to send: ' + e.message;
+    msgEl.className = 'auth-msg error';
+    msgEl.style.display = 'block';
+  }
+  btn.disabled = false; btn.textContent = 'Send test report to my email';
+}
+
+// ── UI ────────────────────────────────────────────────────────────────────────
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast '+type+' show';
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.querySelector(`[onclick="showTab('${name}')"]`).classList.add('active');
+  document.getElementById('tab-'+name).classList.add('visible');
+}
+
+function setMood(v) {
+  selectedMood = v;
+  document.querySelectorAll('.mood-btn').forEach((b,i) => b.classList.toggle('active', i+1===v));
 }
 
 function updateMetrics() {
-  const total = logs.reduce((a,l) => a + parseFloat(l.hours), 0);
+  const total = logs.reduce((a,l) => a+parseFloat(l.hours),0);
   document.getElementById('m-total').textContent = total.toFixed(1);
   const today = new Date().toISOString().split('T')[0];
-  const todayLogs = logs.filter(l => l.date === today);
-  const todayHrs = todayLogs.reduce((a,l) => a + parseFloat(l.hours), 0);
+  const todayLogs = logs.filter(l => l.date===today);
+  const todayHrs = todayLogs.reduce((a,l) => a+parseFloat(l.hours),0);
   document.getElementById('m-today').textContent = todayHrs.toFixed(1);
   document.getElementById('m-today-sub').textContent = todayLogs.length ? todayLogs.map(l => SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', ') : 'nothing today';
-  let total_t = 0, done_t = 0;
-  SUBJECTS.forEach(s => s.topics.forEach(t => { total_t++; if (topicState[s.id]?.[t]) done_t++; }));
-  document.getElementById('m-topics').textContent = total_t ? Math.round(done_t/total_t*100) + '%' : '0%';
-  document.getElementById('m-topics-sub').textContent = `${done_t} of ${total_t} topics`;
-  if (logs.length) {
-    const avg = logs.reduce((a,l) => a + l.mood, 0) / logs.length;
-    document.getElementById('m-mood').textContent = avg.toFixed(1);
-  } else { document.getElementById('m-mood').textContent = '—'; }
+  let tt=0,dt=0;
+  SUBJECTS.forEach(s => s.topics.forEach(t => { tt++; if(topicState[s.id]?.[t]) dt++; }));
+  document.getElementById('m-topics').textContent = tt ? Math.round(dt/tt*100)+'%' : '0%';
+  document.getElementById('m-topics-sub').textContent = `${dt} of ${tt} topics`;
+  if (logs.length) { document.getElementById('m-mood').textContent = (logs.reduce((a,l)=>a+l.mood,0)/logs.length).toFixed(1); }
+  else { document.getElementById('m-mood').textContent = '—'; }
 }
 
 function renderHistory() {
   const el = document.getElementById('log-history');
   if (!logs.length) { el.innerHTML = '<div class="empty">No entries yet — use the Daily log tab to get started.</div>'; return; }
   el.innerHTML = logs.slice(0,15).map(l => {
-    const s = SUBJECTS.find(x => x.id === l.subject);
-    const d = new Date(l.date + 'T00:00:00').toLocaleDateString('en-IN', {day:'numeric',month:'short'});
+    const s = SUBJECTS.find(x=>x.id===l.subject);
+    const d = new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
     return `<div class="hist-row">
       <div class="hist-date">${d}</div>
-      <div class="hist-subj">${s?.name || l.subject}${l.note ? `<span style="font-size:11px;color:var(--text3);margin-left:6px">— ${l.note}</span>` : ''}</div>
+      <div class="hist-subj">${s?.name||l.subject}${l.note?`<span style="font-size:11px;color:var(--text3);margin-left:6px">— ${l.note}</span>`:''}</div>
       <div class="hist-hrs">${parseFloat(l.hours).toFixed(1)}h</div>
       <div class="mood-dot mood-${l.mood}" title="Productivity: ${l.mood}/5"></div>
       <button class="del-btn" onclick="deleteLog('${l.id}')" title="Delete">×</button>
@@ -297,32 +446,26 @@ function renderHistory() {
 }
 
 function renderSubjects() {
-  const grid = document.getElementById('subjects-grid');
-  grid.innerHTML = SUBJECTS.map(s => {
-    const total = s.topics.length;
-    const done = s.topics.filter(t => topicState[s.id]?.[t]).length;
-    const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('subjects-grid').innerHTML = SUBJECTS.map(s => {
+    const total=s.topics.length, done=s.topics.filter(t=>topicState[s.id]?.[t]).length;
+    const pct=total?Math.round(done/total*100):0;
     return `<div class="subj-card">
-      <div class="subj-header">
-        <div class="subj-name">${s.name}</div>
-        <div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div>
-      </div>
+      <div class="subj-header"><div class="subj-name">${s.name}</div><div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div></div>
       <div class="pbar-bg"><div class="pbar-fill" style="width:${pct}%;background:${s.color}"></div></div>
-      <div class="topics">${s.topics.map(t => `
+      <div class="topics">${s.topics.map(t=>`
         <label class="topic-row">
-          <input type="checkbox" ${topicState[s.id]?.[t] ? 'checked' : ''} onchange="toggleTopic('${s.id}','${t.replace(/'/g,"\\'")}',this.checked)">
-          <span class="topic-label ${topicState[s.id]?.[t] ? 'done' : ''}">${t}</span>
+          <input type="checkbox" ${topicState[s.id]?.[t]?'checked':''} onchange="toggleTopic('${s.id}','${t.replace(/'/g,"\\'")}',this.checked)">
+          <span class="topic-label ${topicState[s.id]?.[t]?'done':''}">${t}</span>
         </label>`).join('')}
       </div>
     </div>`;
   }).join('');
 }
 
-async function init() {
+function init() {
   const sel = document.getElementById('log-subj');
-  SUBJECTS.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = s.name; sel.appendChild(o); });
+  SUBJECTS.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
   document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
-  await Promise.all([loadLogs(), loadTopics()]);
 }
 init();
 </script>
