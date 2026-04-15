@@ -27,6 +27,9 @@
     }
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+  #init-loader { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text3); }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--info-text); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
   .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
   .auth-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 400px; }
   .auth-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
@@ -41,11 +44,12 @@
   .msg { font-size: 13px; margin-top: 12px; padding: 10px 12px; border-radius: var(--radius); display: none; }
   .msg.error { background: var(--danger-bg); color: var(--danger-text); display: block; }
   .msg.success { background: var(--success-bg); color: var(--success-text); display: block; }
-  .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; display: none; }
+  .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
   .app-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
   .app-title { font-size: 20px; font-weight: 500; }
   .app-email { font-size: 13px; color: var(--text3); margin-top: 2px; }
   .signout-btn { background: none; border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 6px 12px; cursor: pointer; font-size: 13px; color: var(--text2); font-family: inherit; }
+  .signout-btn:hover { background: var(--bg2); }
   .tab-row { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .tab { padding: 6px 14px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); font-family: inherit; }
   .tab.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
@@ -93,9 +97,6 @@
   .toast.success { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
   .toast.error { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
   .toast.show { opacity: 1; }
-  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--info-text); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #init-loader { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text3); }
   @media (max-width: 600px) {
     .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .subjects-grid { grid-template-columns: 1fr; }
@@ -107,99 +108,99 @@
 
 <div id="init-loader"><span class="spinner"></span> Loading...</div>
 
-<div class="auth-wrap" id="auth-screen" style="display:none">
-  <div class="auth-card">
-    <div class="auth-title">UPSC study tracker</div>
-    <div class="auth-sub">Sign in to access your dashboard from any device.</div>
-    <div class="auth-tabs">
-      <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign in</button>
-      <button class="auth-tab" onclick="switchAuthTab('signup')">Create account</button>
-    </div>
-    <div id="auth-signin">
-      <div class="field"><label>Email</label><input type="email" id="si-email" placeholder="you@example.com"></div>
-      <div class="field"><label>Password</label><input type="password" id="si-pass" placeholder="••••••••"></div>
-      <button class="auth-btn" onclick="signIn()">Sign in</button>
-      <div class="msg" id="si-msg"></div>
-    </div>
-    <div id="auth-signup" style="display:none">
-      <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="you@example.com"></div>
-      <div class="field"><label>Password</label><input type="password" id="su-pass" placeholder="At least 6 characters"></div>
-      <button class="auth-btn" onclick="signUp()">Create account</button>
-      <div class="msg" id="su-msg"></div>
+<div id="auth-screen" style="display:none">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-title">UPSC study tracker</div>
+      <div class="auth-sub">Sign in to access your dashboard from any device.</div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign in</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Create account</button>
+      </div>
+      <div id="auth-signin">
+        <div class="field"><label>Email</label><input type="email" id="si-email" placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input type="password" id="si-pass" placeholder="••••••••"></div>
+        <button class="auth-btn" onclick="signIn()">Sign in</button>
+        <div class="msg" id="si-msg"></div>
+      </div>
+      <div id="auth-signup" style="display:none">
+        <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="you@example.com"></div>
+        <div class="field"><label>Password</label><input type="password" id="su-pass" placeholder="At least 6 characters"></div>
+        <button class="auth-btn" onclick="signUp()">Create account</button>
+        <div class="msg" id="su-msg"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<div class="app" id="app-screen">
-  <div class="app-header">
-    <div>
-      <div class="app-title">UPSC study tracker</div>
-      <div class="app-email" id="app-email"></div>
-    </div>
-    <button class="signout-btn" onclick="signOut()">Sign out</button>
-  </div>
-  <div class="tab-row">
-    <button class="tab active" onclick="showTab('overview')">Overview</button>
-    <button class="tab" onclick="showTab('topics')">Topics</button>
-    <button class="tab" onclick="showTab('log')">Daily log</button>
-    <button class="tab" onclick="showTab('reports')">Reports</button>
-  </div>
-
-  <div id="tab-overview" class="section visible">
-    <div class="metric-grid">
-      <div class="metric"><div class="metric-label">Total hours logged</div><div class="metric-val" id="m-total">—</div><div class="metric-sub">across all subjects</div></div>
-      <div class="metric"><div class="metric-label">Today's hours</div><div class="metric-val" id="m-today">—</div><div class="metric-sub" id="m-today-sub">—</div></div>
-      <div class="metric"><div class="metric-label">Topics covered</div><div class="metric-val" id="m-topics">—</div><div class="metric-sub" id="m-topics-sub">—</div></div>
-      <div class="metric"><div class="metric-label">Avg productivity</div><div class="metric-val" id="m-mood">—</div><div class="metric-sub">out of 5</div></div>
-    </div>
-    <div class="section-title">Recent log</div>
-    <div class="card" id="log-history"><div class="empty">No entries yet.</div></div>
-  </div>
-
-  <div id="tab-topics" class="section">
-    <div class="subjects-grid" id="subjects-grid"></div>
-  </div>
-
-  <div id="tab-log" class="section">
-    <div class="card">
-      <div class="section-title" style="margin-bottom:16px">Log a study session</div>
-      <div class="log-row">
-        <div><div class="field-label">Subject</div><select id="log-subj"></select></div>
-        <div><div class="field-label">Hours spent</div><input type="number" id="log-hrs" min="0.25" max="16" step="0.25" value="1"></div>
-        <div><div class="field-label">Date</div><input type="date" id="log-date"></div>
+<div id="app-screen" style="display:none">
+  <div class="app">
+    <div class="app-header">
+      <div>
+        <div class="app-title">UPSC study tracker</div>
+        <div class="app-email" id="app-email"></div>
       </div>
-      <div style="margin-top:14px">
-        <div class="field-label">How productive did you feel? (1 = low, 5 = excellent)</div>
-        <div class="mood-row">
-          <button class="mood-btn" onclick="setMood(1)">1 — low</button>
-          <button class="mood-btn" onclick="setMood(2)">2 — okay</button>
-          <button class="mood-btn" onclick="setMood(3)">3 — good</button>
-          <button class="mood-btn" onclick="setMood(4)">4 — great</button>
-          <button class="mood-btn" onclick="setMood(5)">5 — excellent</button>
+      <button class="signout-btn" id="signout-btn">Sign out</button>
+    </div>
+    <div class="tab-row">
+      <button class="tab active" onclick="showTab('overview')">Overview</button>
+      <button class="tab" onclick="showTab('topics')">Topics</button>
+      <button class="tab" onclick="showTab('log')">Daily log</button>
+      <button class="tab" onclick="showTab('reports')">Reports</button>
+    </div>
+    <div id="tab-overview" class="section visible">
+      <div class="metric-grid">
+        <div class="metric"><div class="metric-label">Total hours logged</div><div class="metric-val" id="m-total">—</div><div class="metric-sub">across all subjects</div></div>
+        <div class="metric"><div class="metric-label">Today's hours</div><div class="metric-val" id="m-today">—</div><div class="metric-sub" id="m-today-sub">—</div></div>
+        <div class="metric"><div class="metric-label">Topics covered</div><div class="metric-val" id="m-topics">—</div><div class="metric-sub" id="m-topics-sub">—</div></div>
+        <div class="metric"><div class="metric-label">Avg productivity</div><div class="metric-val" id="m-mood">—</div><div class="metric-sub">out of 5</div></div>
+      </div>
+      <div class="section-title">Recent log</div>
+      <div class="card" id="log-history"><div class="empty">No entries yet.</div></div>
+    </div>
+    <div id="tab-topics" class="section">
+      <div class="subjects-grid" id="subjects-grid"></div>
+    </div>
+    <div id="tab-log" class="section">
+      <div class="card">
+        <div class="section-title" style="margin-bottom:16px">Log a study session</div>
+        <div class="log-row">
+          <div><div class="field-label">Subject</div><select id="log-subj"></select></div>
+          <div><div class="field-label">Hours spent</div><input type="number" id="log-hrs" min="0.25" max="16" step="0.25" value="1"></div>
+          <div><div class="field-label">Date</div><input type="date" id="log-date"></div>
         </div>
+        <div style="margin-top:14px">
+          <div class="field-label">How productive did you feel? (1 = low, 5 = excellent)</div>
+          <div class="mood-row">
+            <button class="mood-btn" onclick="setMood(1)">1 — low</button>
+            <button class="mood-btn" onclick="setMood(2)">2 — okay</button>
+            <button class="mood-btn" onclick="setMood(3)">3 — good</button>
+            <button class="mood-btn" onclick="setMood(4)">4 — great</button>
+            <button class="mood-btn" onclick="setMood(5)">5 — excellent</button>
+          </div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="field-label">Notes (optional)</div>
+          <input type="text" id="log-note" placeholder="What did you cover today?">
+        </div>
+        <button class="btn" onclick="addLog()">Add entry</button>
       </div>
-      <div style="margin-top:14px">
-        <div class="field-label">Notes (optional)</div>
-        <input type="text" id="log-note" placeholder="What did you cover today?">
+      <div style="display:flex;justify-content:flex-end;margin-top:8px">
+        <button class="btn-danger" onclick="clearAllData()">Clear all my data</button>
       </div>
-      <button class="btn" onclick="addLog()">Add entry</button>
     </div>
-    <div style="display:flex;justify-content:flex-end;margin-top:8px">
-      <button class="btn-danger" onclick="clearAllData()">Clear all my data</button>
-    </div>
-  </div>
-
-  <div id="tab-reports" class="section">
-    <div class="report-info">
-      <strong>Weekly email reports</strong><br><br>
-      Every Monday morning, you'll receive a summary of the previous week's study activity — total hours logged, subjects covered, productivity rating, and overall topic progress.<br><br>
-      Reports are sent automatically to <strong id="report-email"></strong>. No setup needed.
-    </div>
-    <div class="card">
-      <div class="section-title" style="margin-bottom:12px">Send a test report</div>
-      <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Send yourself a report right now to see what the weekly email looks like.</p>
-      <button class="btn" style="margin-top:0" id="report-btn" onclick="sendTestReport()">Send test report to my email</button>
-      <div class="msg" id="report-msg" style="margin-top:12px"></div>
+    <div id="tab-reports" class="section">
+      <div class="report-info">
+        <strong>Weekly email reports</strong><br><br>
+        Every Monday morning, you'll receive a summary of the previous week — total hours, subjects covered, productivity rating, and topic progress.<br><br>
+        Reports are sent automatically to <strong id="report-email"></strong>.
+      </div>
+      <div class="card">
+        <div class="section-title" style="margin-bottom:12px">Send a test report</div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:14px">Send yourself a report now to preview what the weekly email looks like.</p>
+        <button class="btn" style="margin-top:0" id="report-btn" onclick="sendTestReport()">Send test report to my email</button>
+        <div class="msg" id="report-msg" style="margin-top:12px"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -209,9 +210,15 @@
 <script>
 const SUPABASE_URL = 'https://qatcgxeemzptmxzgmiya.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhdGNneGVlbXpwdG14emdtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4ODE5NTUsImV4cCI6MjA5MTQ1Nzk1NX0.mAKIHA9ogSLh7CsFfyP5HxEDr6xZ9DndK-h9y3pTnXM';
+
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    storageKey: 'upsc-auth',
+    storage: window.localStorage
+  }
 });
 
 const SUBJECTS = [
@@ -229,26 +236,26 @@ const SUBJECTS = [
 ];
 
 let logs = [], topicState = {}, selectedMood = 0, currentUser = null;
-let dataLoaded = false;
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── UI helpers ────────────────────────────────────────────────────────────────
+
+function el(id) { return document.getElementById(id); }
 
 function showToast(msg, type='success') {
-  const t = document.getElementById('toast');
+  const t = el('toast');
   t.textContent = msg; t.className = 'toast '+type+' show';
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 function showMsg(id, msg, type) {
-  const el = document.getElementById(id);
-  el.textContent = msg; el.className = 'msg ' + type;
+  const e = el(id); e.textContent = msg; e.className = 'msg ' + type;
 }
 
 function showTab(name) {
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
   document.querySelector(`[onclick="showTab('${name}')"]`).classList.add('active');
-  document.getElementById('tab-'+name).classList.add('visible');
+  el('tab-'+name).classList.add('visible');
 }
 
 function setMood(v) {
@@ -256,25 +263,31 @@ function setMood(v) {
   document.querySelectorAll('.mood-btn').forEach((b,i) => b.classList.toggle('active', i+1===v));
 }
 
+function showScreen(name) {
+  el('init-loader').style.display = 'none';
+  el('auth-screen').style.display = name === 'auth' ? 'block' : 'none';
+  el('app-screen').style.display = name === 'app' ? 'block' : 'none';
+}
+
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
 function switchAuthTab(tab) {
   document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active',(i===0&&tab==='signin')||(i===1&&tab==='signup')));
-  document.getElementById('auth-signin').style.display = tab==='signin'?'block':'none';
-  document.getElementById('auth-signup').style.display = tab==='signup'?'block':'none';
+  el('auth-signin').style.display = tab==='signin' ? 'block' : 'none';
+  el('auth-signup').style.display = tab==='signup' ? 'block' : 'none';
 }
 
 async function signIn() {
-  const email = document.getElementById('si-email').value.trim();
-  const pass = document.getElementById('si-pass').value;
+  const email = el('si-email').value.trim();
+  const pass = el('si-pass').value;
   if (!email||!pass) { showMsg('si-msg','Please enter your email and password.','error'); return; }
   const { error } = await db.auth.signInWithPassword({ email, password: pass });
   if (error) showMsg('si-msg', error.message, 'error');
 }
 
 async function signUp() {
-  const email = document.getElementById('su-email').value.trim();
-  const pass = document.getElementById('su-pass').value;
+  const email = el('su-email').value.trim();
+  const pass = el('su-pass').value;
   if (!email||!pass) { showMsg('su-msg','Please enter your email and password.','error'); return; }
   if (pass.length < 6) { showMsg('su-msg','Password must be at least 6 characters.','error'); return; }
   const { error } = await db.auth.signUp({ email, password: pass });
@@ -282,56 +295,42 @@ async function signUp() {
   showMsg('su-msg','Account created! Signing you in...','success');
 }
 
-async function signOut() {
+el('signout-btn').addEventListener('click', async () => {
   await db.auth.signOut();
-  currentUser = null; logs = []; topicState = {}; dataLoaded = false;
-  document.getElementById('app-screen').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
+  currentUser = null; logs = []; topicState = {};
+  showScreen('auth');
+});
+
+// ── App init — single entry point ─────────────────────────────────────────────
+// Strategy: call getSession() once on load. This synchronously reads from
+// localStorage and returns the session if one exists. No event waiting needed.
+// onAuthStateChange only used for sign-in / sign-out after initial load.
+
+async function initApp() {
+  const { data, error } = await db.auth.getSession();
+  if (error) { console.error('getSession error:', error); showScreen('auth'); return; }
+  if (data.session) {
+    await loadUser(data.session.user);
+  } else {
+    showScreen('auth');
+  }
 }
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
-// getSession() reads the persisted session from localStorage — works on refresh.
-// onAuthStateChange then handles sign-in / sign-out events.
-
-db.auth.onAuthStateChange(async (event, session) => {
-  console.log('Auth event:', event, session?.user?.email || 'no user');
-
-  if (event === 'INITIAL_SESSION') {
-    if (session?.user) {
-      console.log('Restoring session on load');
-      await showApp(session.user);
-    } else {
-      console.log('No session, showing login');
-      document.getElementById('init-loader').style.display = 'none';
-      document.getElementById('auth-screen').style.display = 'flex';
-    }
-    return;
+db.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session?.user && !currentUser) {
+    loadUser(session.user);
   }
-
-  if (event === 'SIGNED_IN' && session?.user) {
-    console.log('SIGNED_IN, loading app');
-    await showApp(session.user);
-    return;
-  }
-
   if (event === 'SIGNED_OUT') {
-    console.log('Signed out');
-    currentUser = null; logs = []; topicState = {}; dataLoaded = false;
-    document.getElementById('app-screen').style.display = 'none';
-    document.getElementById('auth-screen').style.display = 'flex';
-    document.getElementById('init-loader').style.display = 'none';
+    currentUser = null; logs = []; topicState = {};
+    showScreen('auth');
   }
 });
 
-async function showApp(user) {
+async function loadUser(user) {
   currentUser = user;
-  dataLoaded = true;
-  document.getElementById('init-loader').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app-screen').style.display = 'block';
-  document.getElementById('app-email').textContent = user.email;
-  document.getElementById('report-email').textContent = user.email;
-  // Always reload data fresh — ensures metrics are correct after refresh
+  el('app-email').textContent = user.email;
+  el('report-email').textContent = user.email;
+  showScreen('app');
   logs = []; topicState = {};
   await Promise.all([loadLogs(), loadTopics()]);
 }
@@ -339,58 +338,58 @@ async function showApp(user) {
 // ── Data ──────────────────────────────────────────────────────────────────────
 
 async function loadLogs() {
-  const { data, error } = await db.from('logs').select('*')
+  const { data, error } = await db
+    .from('logs').select('*')
     .eq('user_id', currentUser.id)
     .order('date', {ascending:false})
     .order('created_at', {ascending:false})
     .limit(50);
-  if (error) { console.error('loadLogs error:', error); showToast('Error loading logs: ' + error.message, 'error'); return; }
+  if (error) { showToast('Error loading logs: '+error.message, 'error'); return; }
   logs = data || [];
-  console.log('Loaded logs:', logs.length);
   updateMetrics();
   renderHistory();
 }
 
 async function loadTopics() {
-  const { data, error } = await db.from('topics').select('*').eq('user_id', currentUser.id);
-  if (error) { console.error('loadTopics error:', error); showToast('Error loading topics: ' + error.message, 'error'); return; }
+  const { data, error } = await db
+    .from('topics').select('*')
+    .eq('user_id', currentUser.id);
+  if (error) { showToast('Error loading topics: '+error.message, 'error'); return; }
   SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
   (data||[]).forEach(r => { if (topicState[r.subject_id]) topicState[r.subject_id][r.topic] = r.done; });
-  console.log('Loaded topics:', (data||[]).length);
   renderSubjects();
   updateMetrics();
 }
 
 async function addLog() {
-  const subj = document.getElementById('log-subj').value;
-  const hrs = parseFloat(document.getElementById('log-hrs').value);
-  const date = document.getElementById('log-date').value;
-  const note = document.getElementById('log-note').value.trim();
-  if (!subj||!hrs||!date||!selectedMood) { showToast('Fill in all fields and select a productivity rating','error'); return; }
+  const subj = el('log-subj').value;
+  const hrs = parseFloat(el('log-hrs').value);
+  const date = el('log-date').value;
+  const note = el('log-note').value.trim();
+  if (!subj||!hrs||!date||!selectedMood) { showToast('Fill in all fields and pick a productivity rating','error'); return; }
   const { data, error } = await db.from('logs')
-    .insert([{user_id:currentUser.id, subject:subj, hours:hrs, date, mood:selectedMood, note}])
+    .insert([{user_id:currentUser.id,subject:subj,hours:hrs,date,mood:selectedMood,note}])
     .select().single();
-  if (error) { showToast('Error saving: ' + error.message, 'error'); return; }
+  if (error) { showToast('Error saving: '+error.message,'error'); return; }
   logs.unshift(data);
-  document.getElementById('log-note').value = '';
-  selectedMood = 0;
+  el('log-note').value = ''; selectedMood = 0;
   document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
   updateMetrics(); renderHistory(); showToast('Entry saved');
 }
 
 async function deleteLog(id) {
   const { error } = await db.from('logs').delete().eq('id',id).eq('user_id',currentUser.id);
-  if (error) { showToast('Error deleting: ' + error.message, 'error'); return; }
+  if (error) { showToast('Error deleting: '+error.message,'error'); return; }
   logs = logs.filter(l => l.id !== id);
   updateMetrics(); renderHistory(); showToast('Entry deleted');
 }
 
 async function toggleTopic(sid, topic, val) {
   const { error } = await db.from('topics').upsert(
-    {user_id:currentUser.id, subject_id:sid, topic, done:val, updated_at:new Date().toISOString()},
+    {user_id:currentUser.id,subject_id:sid,topic,done:val,updated_at:new Date().toISOString()},
     {onConflict:'user_id,subject_id,topic'}
   );
-  if (error) { showToast('Error saving topic: ' + error.message, 'error'); return; }
+  if (error) { showToast('Error saving topic: '+error.message,'error'); return; }
   topicState[sid][topic] = val;
   updateMetrics(); renderSubjects();
   showToast(val ? 'Topic marked done' : 'Topic unmarked');
@@ -398,8 +397,8 @@ async function toggleTopic(sid, topic, val) {
 
 async function clearAllData() {
   if (!confirm('This will permanently delete all your logs and topic progress. Are you sure?')) return;
-  await db.from('logs').delete().eq('user_id', currentUser.id);
-  await db.from('topics').delete().eq('user_id', currentUser.id);
+  await db.from('logs').delete().eq('user_id',currentUser.id);
+  await db.from('topics').delete().eq('user_id',currentUser.id);
   logs = [];
   SUBJECTS.forEach(s => { topicState[s.id]={}; s.topics.forEach(t => topicState[s.id][t]=false); });
   updateMetrics(); renderHistory(); renderSubjects(); showToast('All data cleared');
@@ -408,20 +407,12 @@ async function clearAllData() {
 // ── Reports ───────────────────────────────────────────────────────────────────
 
 async function sendTestReport() {
-  const btn = document.getElementById('report-btn');
-  const msgEl = document.getElementById('report-msg');
+  const btn = el('report-btn');
   btn.disabled = true; btn.textContent = 'Sending...';
-  msgEl.className = 'msg';
-
+  el('report-msg').className = 'msg';
   try {
-    // Force a token refresh to ensure we have a valid non-expired JWT
-    const { data: refreshData, error: refreshError } = await db.auth.refreshSession();
-    if (refreshError) throw new Error('Could not refresh session: ' + refreshError.message);
-    if (!refreshData.session) throw new Error('No active session — please sign out and sign in again.');
-
-    const session = refreshData.session;
-    console.log('Calling edge function with token:', session.access_token.slice(0,20)+'...');
-
+    const { data: { session } } = await db.auth.refreshSession();
+    if (!session) throw new Error('Session expired — please sign out and sign in again.');
     const res = await fetch(`${SUPABASE_URL}/functions/v1/weekly-report`, {
       method: 'POST',
       headers: {
@@ -429,83 +420,58 @@ async function sendTestReport() {
         'Authorization': `Bearer ${session.access_token}`,
         'apikey': SUPABASE_KEY
       },
-      body: JSON.stringify({
-        user_id: currentUser.id,
-        email: currentUser.email,
-        test: true
-      })
+      body: JSON.stringify({user_id: currentUser.id, email: currentUser.email, test: true})
     });
-
     const text = await res.text();
-    console.log('Edge function response status:', res.status, 'body:', text);
-
-    let json;
-    try { json = JSON.parse(text); } catch(e) { throw new Error(`Non-JSON response (${res.status}): ${text.slice(0,200)}`); }
-
-    if (!res.ok) throw new Error(json.error || json.message || `HTTP ${res.status}`);
-
-    showMsg('report-msg', 'Report sent! Check your inbox (and spam folder).', 'success');
-
+    let json; try { json = JSON.parse(text); } catch { throw new Error('Server error: '+text.slice(0,100)); }
+    if (!res.ok) throw new Error(json.error || json.message || 'HTTP '+res.status);
+    showMsg('report-msg','Report sent! Check your inbox.','success');
   } catch(e) {
-    console.error('sendTestReport error:', e);
-    showMsg('report-msg', 'Failed: ' + e.message, 'error');
+    showMsg('report-msg','Failed: '+e.message,'error');
   }
-
   btn.disabled = false; btn.textContent = 'Send test report to my email';
 }
 
 // ── Render ────────────────────────────────────────────────────────────────────
 
 function updateMetrics() {
-  const total = logs.reduce((a,l) => a + parseFloat(l.hours), 0);
-  document.getElementById('m-total').textContent = total.toFixed(1);
-
+  const total = logs.reduce((a,l) => a+parseFloat(l.hours), 0);
+  el('m-total').textContent = total.toFixed(1);
   const today = new Date().toISOString().split('T')[0];
-  const todayLogs = logs.filter(l => l.date === today);
-  const todayHrs = todayLogs.reduce((a,l) => a + parseFloat(l.hours), 0);
-  document.getElementById('m-today').textContent = todayHrs.toFixed(1);
-  document.getElementById('m-today-sub').textContent = todayLogs.length
-    ? todayLogs.map(l => SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', ')
-    : 'nothing today';
-
-  let tt = 0, dt = 0;
-  SUBJECTS.forEach(s => s.topics.forEach(t => { tt++; if (topicState[s.id]?.[t]) dt++; }));
-  document.getElementById('m-topics').textContent = tt ? Math.round(dt/tt*100)+'%' : '0%';
-  document.getElementById('m-topics-sub').textContent = `${dt} of ${tt} topics`;
-
-  document.getElementById('m-mood').textContent = logs.length
-    ? (logs.reduce((a,l) => a+l.mood, 0) / logs.length).toFixed(1)
-    : '—';
+  const tl = logs.filter(l => l.date===today);
+  el('m-today').textContent = tl.reduce((a,l) => a+parseFloat(l.hours),0).toFixed(1);
+  el('m-today-sub').textContent = tl.length ? tl.map(l=>SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', ') : 'nothing today';
+  let tt=0,dt=0;
+  SUBJECTS.forEach(s=>s.topics.forEach(t=>{tt++;if(topicState[s.id]?.[t])dt++;}));
+  el('m-topics').textContent = tt ? Math.round(dt/tt*100)+'%' : '0%';
+  el('m-topics-sub').textContent = `${dt} of ${tt} topics`;
+  el('m-mood').textContent = logs.length ? (logs.reduce((a,l)=>a+l.mood,0)/logs.length).toFixed(1) : '—';
 }
 
 function renderHistory() {
-  const el = document.getElementById('log-history');
-  if (!logs.length) { el.innerHTML = '<div class="empty">No entries yet — use the Daily log tab to get started.</div>'; return; }
-  el.innerHTML = logs.slice(0,15).map(l => {
-    const s = SUBJECTS.find(x => x.id === l.subject);
-    const d = new Date(l.date+'T00:00:00').toLocaleDateString('en-IN', {day:'numeric', month:'short'});
+  const e = el('log-history');
+  if (!logs.length) { e.innerHTML = '<div class="empty">No entries yet — use the Daily log tab to get started.</div>'; return; }
+  e.innerHTML = logs.slice(0,15).map(l => {
+    const s = SUBJECTS.find(x=>x.id===l.subject);
+    const d = new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
     return `<div class="hist-row">
       <div class="hist-date">${d}</div>
       <div class="hist-subj">${s?.name||l.subject}${l.note?`<span style="font-size:11px;color:var(--text3);margin-left:6px">— ${l.note}</span>`:''}</div>
       <div class="hist-hrs">${parseFloat(l.hours).toFixed(1)}h</div>
       <div class="mood-dot mood-${l.mood}" title="Productivity: ${l.mood}/5"></div>
-      <button class="del-btn" onclick="deleteLog('${l.id}')" title="Delete">×</button>
+      <button class="del-btn" onclick="deleteLog('${l.id}')">×</button>
     </div>`;
   }).join('');
 }
 
 function renderSubjects() {
-  document.getElementById('subjects-grid').innerHTML = SUBJECTS.map(s => {
-    const total = s.topics.length;
-    const done = s.topics.filter(t => topicState[s.id]?.[t]).length;
-    const pct = total ? Math.round(done/total*100) : 0;
+  el('subjects-grid').innerHTML = SUBJECTS.map(s => {
+    const total=s.topics.length, done=s.topics.filter(t=>topicState[s.id]?.[t]).length;
+    const pct=total?Math.round(done/total*100):0;
     return `<div class="subj-card">
-      <div class="subj-header">
-        <div class="subj-name">${s.name}</div>
-        <div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div>
-      </div>
+      <div class="subj-header"><div class="subj-name">${s.name}</div><div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div></div>
       <div class="pbar-bg"><div class="pbar-fill" style="width:${pct}%;background:${s.color}"></div></div>
-      <div class="topics">${s.topics.map(t => `
+      <div class="topics">${s.topics.map(t=>`
         <label class="topic-row">
           <input type="checkbox" ${topicState[s.id]?.[t]?'checked':''} onchange="toggleTopic('${s.id}','${t.replace(/'/g,"\\'")}',this.checked)">
           <span class="topic-label ${topicState[s.id]?.[t]?'done':''}">${t}</span>
@@ -515,18 +481,16 @@ function renderSubjects() {
   }).join('');
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// ── Bootstrap ─────────────────────────────────────────────────────────────────
 
 (function initStaticUI() {
-  const sel = document.getElementById('log-subj');
-  SUBJECTS.forEach(s => {
-    const o = document.createElement('option');
-    o.value = s.id; o.textContent = s.name;
-    sel.appendChild(o);
-  });
-  document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
+  const sel = el('log-subj');
+  SUBJECTS.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
+  el('log-date').value = new Date().toISOString().split('T')[0];
   renderSubjects();
 })();
+
+initApp();
 </script>
 </body>
 </html>
