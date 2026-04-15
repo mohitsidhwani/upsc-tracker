@@ -312,7 +312,7 @@ async function boot() {
 
 db.auth.onAuthStateChange(async (event, session) => {
   console.log('Auth event:', event, session?.user?.email);
-  if (event === 'SIGNED_IN' && session?.user && !dataLoaded) {
+  if (event === 'SIGNED_IN' && session?.user) {
     await showApp(session.user);
   }
   if (event === 'SIGNED_OUT') {
@@ -333,6 +333,8 @@ async function showApp(user) {
   document.getElementById('app-screen').style.display = 'block';
   document.getElementById('app-email').textContent = user.email;
   document.getElementById('report-email').textContent = user.email;
+  // Always reload data fresh — ensures metrics are correct after refresh
+  logs = []; topicState = {};
   await Promise.all([loadLogs(), loadTopics()]);
 }
 
