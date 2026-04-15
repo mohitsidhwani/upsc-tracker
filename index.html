@@ -27,8 +27,6 @@
     }
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
-
-  /* Auth */
   .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
   .auth-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; width: 100%; max-width: 400px; }
   .auth-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
@@ -40,51 +38,34 @@
   .field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; }
   .field input { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit; }
   .auth-btn { width: 100%; padding: 10px; background: var(--info-bg); border: 0.5px solid var(--info-border); border-radius: var(--radius); cursor: pointer; font-size: 14px; font-weight: 500; color: var(--info-text); font-family: inherit; margin-top: 4px; }
-  .auth-btn:hover { opacity: 0.85; }
   .msg { font-size: 13px; margin-top: 12px; padding: 10px 12px; border-radius: var(--radius); display: none; }
   .msg.error { background: var(--danger-bg); color: var(--danger-text); display: block; }
   .msg.success { background: var(--success-bg); color: var(--success-text); display: block; }
-
-  /* App */
   .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; display: none; }
   .app-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
   .app-title { font-size: 20px; font-weight: 500; }
   .app-email { font-size: 13px; color: var(--text3); margin-top: 2px; }
   .signout-btn { background: none; border: 0.5px solid var(--border2); border-radius: var(--radius); padding: 6px 12px; cursor: pointer; font-size: 13px; color: var(--text2); font-family: inherit; }
-  .signout-btn:hover { background: var(--bg2); }
-
-  /* Tabs */
   .tab-row { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
   .tab { padding: 6px 14px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); font-family: inherit; }
   .tab.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
   .section { display: none; } .section.visible { display: block; }
-
-  /* Metrics */
   .metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
   .metric { background: var(--bg2); border-radius: var(--radius); padding: 14px 16px; }
   .metric-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; }
   .metric-val { font-size: 22px; font-weight: 500; }
   .metric-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
-
-  /* Cards */
   .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1.25rem; }
   .section-title { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
-
-  /* Form */
   .log-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; align-items: end; }
   .field-label { font-size: 12px; color: var(--text2); margin-bottom: 5px; }
-  select, input[type=number], input[type=date], input[type=text] {
-    width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius);
-    background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit;
-  }
+  select, input[type=number], input[type=date], input[type=text] { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; font-family: inherit; }
   .mood-row { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
   .mood-btn { flex: 1; min-width: 80px; padding: 8px 4px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text2); text-align: center; font-family: inherit; }
   .mood-btn.active { background: var(--info-bg); color: var(--info-text); border-color: var(--info-border); }
   .btn { width: 100%; padding: 9px; background: var(--bg); border: 0.5px solid var(--border2); border-radius: var(--radius); cursor: pointer; font-size: 14px; font-weight: 500; color: var(--text); margin-top: 14px; font-family: inherit; }
   .btn:hover { background: var(--bg2); }
   .btn-danger { background: var(--bg); border: 0.5px solid var(--danger-border); color: var(--danger-text); border-radius: var(--radius); padding: 6px 14px; cursor: pointer; font-size: 13px; font-family: inherit; }
-
-  /* Subjects */
   .subjects-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-bottom: 1.5rem; }
   .subj-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
   .subj-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
@@ -96,8 +77,6 @@
   .topic-row input[type=checkbox] { width: 14px; height: 14px; cursor: pointer; flex-shrink: 0; accent-color: #185fa5; }
   .topic-label { font-size: 13px; color: var(--text2); }
   .topic-label.done { color: var(--text3); text-decoration: line-through; }
-
-  /* History */
   .hist-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
   .hist-row:last-child { border-bottom: none; }
   .hist-date { font-size: 12px; color: var(--text3); min-width: 70px; }
@@ -108,25 +87,15 @@
   .del-btn { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 0 4px; line-height: 1; }
   .del-btn:hover { color: var(--danger-text); }
   .empty { font-size: 13px; color: var(--text3); padding: 8px 0; }
-
-  /* Report */
   .report-info { background: var(--bg2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 1.25rem; font-size: 13px; color: var(--text2); line-height: 1.6; }
   .report-info strong { color: var(--text); font-weight: 500; }
-
-  /* Toast */
   .toast { position: fixed; bottom: 24px; right: 24px; padding: 10px 16px; border-radius: var(--radius); font-size: 13px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
   .toast.success { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
   .toast.error { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
   .toast.show { opacity: 1; }
-
-  /* Spinner / loading */
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border2); border-top-color: var(--info-text); border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-overlay { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
-
-  /* Init loader — shown while auth state resolves */
   #init-loader { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text3); }
-
   @media (max-width: 600px) {
     .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .subjects-grid { grid-template-columns: 1fr; }
@@ -136,10 +105,8 @@
 </head>
 <body>
 
-<!-- Shown while Supabase resolves session — prevents flash -->
 <div id="init-loader"><span class="spinner"></span> Loading...</div>
 
-<!-- Auth screen -->
 <div class="auth-wrap" id="auth-screen" style="display:none">
   <div class="auth-card">
     <div class="auth-title">UPSC study tracker</div>
@@ -163,7 +130,6 @@
   </div>
 </div>
 
-<!-- Main app -->
 <div class="app" id="app-screen">
   <div class="app-header">
     <div>
@@ -172,7 +138,6 @@
     </div>
     <button class="signout-btn" onclick="signOut()">Sign out</button>
   </div>
-
   <div class="tab-row">
     <button class="tab active" onclick="showTab('overview')">Overview</button>
     <button class="tab" onclick="showTab('topics')">Topics</button>
@@ -182,13 +147,13 @@
 
   <div id="tab-overview" class="section visible">
     <div class="metric-grid">
-      <div class="metric"><div class="metric-label">Total hours logged</div><div class="metric-val" id="m-total">0</div><div class="metric-sub">across all subjects</div></div>
-      <div class="metric"><div class="metric-label">Today's hours</div><div class="metric-val" id="m-today">0</div><div class="metric-sub" id="m-today-sub">nothing today</div></div>
-      <div class="metric"><div class="metric-label">Topics covered</div><div class="metric-val" id="m-topics">0%</div><div class="metric-sub" id="m-topics-sub">0 of 0 topics</div></div>
+      <div class="metric"><div class="metric-label">Total hours logged</div><div class="metric-val" id="m-total">—</div><div class="metric-sub">across all subjects</div></div>
+      <div class="metric"><div class="metric-label">Today's hours</div><div class="metric-val" id="m-today">—</div><div class="metric-sub" id="m-today-sub">—</div></div>
+      <div class="metric"><div class="metric-label">Topics covered</div><div class="metric-val" id="m-topics">—</div><div class="metric-sub" id="m-topics-sub">—</div></div>
       <div class="metric"><div class="metric-label">Avg productivity</div><div class="metric-val" id="m-mood">—</div><div class="metric-sub">out of 5</div></div>
     </div>
     <div class="section-title">Recent log</div>
-    <div class="card" id="log-history"><div class="empty">No entries yet — use the Daily log tab to get started.</div></div>
+    <div class="card" id="log-history"><div class="empty">No entries yet.</div></div>
   </div>
 
   <div id="tab-topics" class="section">
@@ -245,7 +210,9 @@
 const SUPABASE_URL = 'https://qatcgxeemzptmxzgmiya.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhdGNneGVlbXpwdG14emdtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4ODE5NTUsImV4cCI6MjA5MTQ1Nzk1NX0.mAKIHA9ogSLh7CsFfyP5HxEDr6xZ9DndK-h9y3pTnXM';
 const { createClient } = supabase;
-const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+});
 
 const SUBJECTS = [
   {id:'history',name:'History',color:'#185FA5',topics:['Ancient India','Medieval India','Modern India','World history','Art & culture']},
@@ -262,6 +229,7 @@ const SUBJECTS = [
 ];
 
 let logs = [], topicState = {}, selectedMood = 0, currentUser = null;
+let dataLoaded = false;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -311,35 +279,40 @@ async function signUp() {
   if (pass.length < 6) { showMsg('su-msg','Password must be at least 6 characters.','error'); return; }
   const { error } = await db.auth.signUp({ email, password: pass });
   if (error) { showMsg('su-msg', error.message, 'error'); return; }
-  showMsg('su-msg','Account created! You are now signed in.','success');
+  showMsg('su-msg','Account created! Signing you in...','success');
 }
 
 async function signOut() {
   await db.auth.signOut();
+  currentUser = null; logs = []; topicState = {}; dataLoaded = false;
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
 }
 
-// ── Session handling — single source of truth ─────────────────────────────────
-// getSession() resolves immediately from localStorage if a session exists.
-// onAuthStateChange fires after — we use getSession() on load to avoid the
-// "stuck loader" issue caused by waiting for the async auth event.
+// ── Boot — use onAuthStateChange as single source of truth ───────────────────
+// INITIAL_SESSION fires synchronously if a persisted session exists in
+// localStorage, so the loader disappears immediately on refresh.
 
-async function bootApp() {
-  const { data: { session } } = await db.auth.getSession();
-  if (session?.user) {
-    await showApp(session.user);
-  } else {
-    document.getElementById('init-loader').style.display = 'none';
-    document.getElementById('auth-screen').style.display = 'flex';
-  }
-}
-
-// Keep session in sync after initial boot (sign in / sign out events)
 db.auth.onAuthStateChange(async (event, session) => {
-  if (event === 'SIGNED_IN' && session?.user && (!currentUser || currentUser.id !== session.user.id)) {
-    await showApp(session.user);
+  console.log('Auth event:', event, session?.user?.email);
+
+  if (event === 'INITIAL_SESSION') {
+    if (session?.user) {
+      await showApp(session.user);
+    } else {
+      document.getElementById('init-loader').style.display = 'none';
+      document.getElementById('auth-screen').style.display = 'flex';
+    }
+    return;
   }
+
+  if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session?.user) {
+    if (!dataLoaded) await showApp(session.user);
+    return;
+  }
+
   if (event === 'SIGNED_OUT') {
-    currentUser = null; logs = []; topicState = {};
+    currentUser = null; logs = []; topicState = {}; dataLoaded = false;
     document.getElementById('app-screen').style.display = 'none';
     document.getElementById('auth-screen').style.display = 'flex';
     document.getElementById('init-loader').style.display = 'none';
@@ -348,6 +321,7 @@ db.auth.onAuthStateChange(async (event, session) => {
 
 async function showApp(user) {
   currentUser = user;
+  dataLoaded = true;
   document.getElementById('init-loader').style.display = 'none';
   document.getElementById('auth-screen').style.display = 'none';
   document.getElementById('app-screen').style.display = 'block';
@@ -361,20 +335,24 @@ async function showApp(user) {
 async function loadLogs() {
   const { data, error } = await db.from('logs').select('*')
     .eq('user_id', currentUser.id)
-    .order('date',{ascending:false})
-    .order('created_at',{ascending:false})
+    .order('date', {ascending:false})
+    .order('created_at', {ascending:false})
     .limit(50);
-  if (error) { showToast('Error loading logs','error'); return; }
+  if (error) { console.error('loadLogs error:', error); showToast('Error loading logs: ' + error.message, 'error'); return; }
   logs = data || [];
-  updateMetrics(); renderHistory();
+  console.log('Loaded logs:', logs.length);
+  updateMetrics();
+  renderHistory();
 }
 
 async function loadTopics() {
   const { data, error } = await db.from('topics').select('*').eq('user_id', currentUser.id);
-  if (error) { showToast('Error loading topics','error'); return; }
+  if (error) { console.error('loadTopics error:', error); showToast('Error loading topics: ' + error.message, 'error'); return; }
   SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
   (data||[]).forEach(r => { if (topicState[r.subject_id]) topicState[r.subject_id][r.topic] = r.done; });
-  renderSubjects(); updateMetrics();
+  console.log('Loaded topics:', (data||[]).length);
+  renderSubjects();
+  updateMetrics();
 }
 
 async function addLog() {
@@ -384,9 +362,9 @@ async function addLog() {
   const note = document.getElementById('log-note').value.trim();
   if (!subj||!hrs||!date||!selectedMood) { showToast('Fill in all fields and select a productivity rating','error'); return; }
   const { data, error } = await db.from('logs')
-    .insert([{user_id:currentUser.id,subject:subj,hours:hrs,date,mood:selectedMood,note}])
+    .insert([{user_id:currentUser.id, subject:subj, hours:hrs, date, mood:selectedMood, note}])
     .select().single();
-  if (error) { showToast('Error saving entry','error'); return; }
+  if (error) { showToast('Error saving: ' + error.message, 'error'); return; }
   logs.unshift(data);
   document.getElementById('log-note').value = '';
   selectedMood = 0;
@@ -396,17 +374,17 @@ async function addLog() {
 
 async function deleteLog(id) {
   const { error } = await db.from('logs').delete().eq('id',id).eq('user_id',currentUser.id);
-  if (error) { showToast('Error deleting entry','error'); return; }
+  if (error) { showToast('Error deleting: ' + error.message, 'error'); return; }
   logs = logs.filter(l => l.id !== id);
   updateMetrics(); renderHistory(); showToast('Entry deleted');
 }
 
 async function toggleTopic(sid, topic, val) {
   const { error } = await db.from('topics').upsert(
-    {user_id:currentUser.id,subject_id:sid,topic,done:val,updated_at:new Date().toISOString()},
+    {user_id:currentUser.id, subject_id:sid, topic, done:val, updated_at:new Date().toISOString()},
     {onConflict:'user_id,subject_id,topic'}
   );
-  if (error) { showToast('Error saving topic','error'); return; }
+  if (error) { showToast('Error saving topic: ' + error.message, 'error'); return; }
   topicState[sid][topic] = val;
   updateMetrics(); renderSubjects();
   showToast(val ? 'Topic marked done' : 'Topic unmarked');
@@ -414,8 +392,8 @@ async function toggleTopic(sid, topic, val) {
 
 async function clearAllData() {
   if (!confirm('This will permanently delete all your logs and topic progress. Are you sure?')) return;
-  await db.from('logs').delete().eq('user_id',currentUser.id);
-  await db.from('topics').delete().eq('user_id',currentUser.id);
+  await db.from('logs').delete().eq('user_id', currentUser.id);
+  await db.from('topics').delete().eq('user_id', currentUser.id);
   logs = [];
   SUBJECTS.forEach(s => { topicState[s.id]={}; s.topics.forEach(t => topicState[s.id][t]=false); });
   updateMetrics(); renderHistory(); renderSubjects(); showToast('All data cleared');
@@ -427,11 +405,15 @@ async function sendTestReport() {
   const btn = document.getElementById('report-btn');
   const msgEl = document.getElementById('report-msg');
   btn.disabled = true; btn.textContent = 'Sending...';
-  msgEl.className = 'msg'; msgEl.style.display = 'none';
+  msgEl.className = 'msg';
 
   try {
+    // Always get a fresh session token
     const { data: { session }, error: sessionError } = await db.auth.getSession();
-    if (sessionError || !session) throw new Error('Not authenticated — please sign in again.');
+    if (sessionError) throw new Error('Session error: ' + sessionError.message);
+    if (!session) throw new Error('No active session — please sign out and sign in again.');
+
+    console.log('Calling edge function with token:', session.access_token.slice(0,20)+'...');
 
     const res = await fetch(`${SUPABASE_URL}/functions/v1/weekly-report`, {
       method: 'POST',
@@ -440,18 +422,26 @@ async function sendTestReport() {
         'Authorization': `Bearer ${session.access_token}`,
         'apikey': SUPABASE_KEY
       },
-      body: JSON.stringify({ user_id: currentUser.id, email: currentUser.email, test: true })
+      body: JSON.stringify({
+        user_id: currentUser.id,
+        email: currentUser.email,
+        test: true
+      })
     });
 
-    let json;
     const text = await res.text();
-    try { json = JSON.parse(text); } catch { throw new Error('Invalid response from server: ' + text.slice(0,100)); }
+    console.log('Edge function response status:', res.status, 'body:', text);
 
-    if (!res.ok) throw new Error(json.error || json.message || `Server error ${res.status}`);
+    let json;
+    try { json = JSON.parse(text); } catch(e) { throw new Error(`Non-JSON response (${res.status}): ${text.slice(0,200)}`); }
+
+    if (!res.ok) throw new Error(json.error || json.message || `HTTP ${res.status}`);
 
     showMsg('report-msg', 'Report sent! Check your inbox (and spam folder).', 'success');
+
   } catch(e) {
-    showMsg('report-msg', 'Failed to send: ' + e.message, 'error');
+    console.error('sendTestReport error:', e);
+    showMsg('report-msg', 'Failed: ' + e.message, 'error');
   }
 
   btn.disabled = false; btn.textContent = 'Send test report to my email';
@@ -460,29 +450,33 @@ async function sendTestReport() {
 // ── Render ────────────────────────────────────────────────────────────────────
 
 function updateMetrics() {
-  const total = logs.reduce((a,l) => a+parseFloat(l.hours),0);
+  const total = logs.reduce((a,l) => a + parseFloat(l.hours), 0);
   document.getElementById('m-total').textContent = total.toFixed(1);
+
   const today = new Date().toISOString().split('T')[0];
-  const todayLogs = logs.filter(l => l.date===today);
-  const todayHrs = todayLogs.reduce((a,l) => a+parseFloat(l.hours),0);
+  const todayLogs = logs.filter(l => l.date === today);
+  const todayHrs = todayLogs.reduce((a,l) => a + parseFloat(l.hours), 0);
   document.getElementById('m-today').textContent = todayHrs.toFixed(1);
   document.getElementById('m-today-sub').textContent = todayLogs.length
     ? todayLogs.map(l => SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', ')
     : 'nothing today';
-  let tt=0, dt=0;
-  SUBJECTS.forEach(s => s.topics.forEach(t => { tt++; if(topicState[s.id]?.[t]) dt++; }));
+
+  let tt = 0, dt = 0;
+  SUBJECTS.forEach(s => s.topics.forEach(t => { tt++; if (topicState[s.id]?.[t]) dt++; }));
   document.getElementById('m-topics').textContent = tt ? Math.round(dt/tt*100)+'%' : '0%';
   document.getElementById('m-topics-sub').textContent = `${dt} of ${tt} topics`;
+
   document.getElementById('m-mood').textContent = logs.length
-    ? (logs.reduce((a,l)=>a+l.mood,0)/logs.length).toFixed(1) : '—';
+    ? (logs.reduce((a,l) => a+l.mood, 0) / logs.length).toFixed(1)
+    : '—';
 }
 
 function renderHistory() {
   const el = document.getElementById('log-history');
   if (!logs.length) { el.innerHTML = '<div class="empty">No entries yet — use the Daily log tab to get started.</div>'; return; }
   el.innerHTML = logs.slice(0,15).map(l => {
-    const s = SUBJECTS.find(x=>x.id===l.subject);
-    const d = new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+    const s = SUBJECTS.find(x => x.id === l.subject);
+    const d = new Date(l.date+'T00:00:00').toLocaleDateString('en-IN', {day:'numeric', month:'short'});
     return `<div class="hist-row">
       <div class="hist-date">${d}</div>
       <div class="hist-subj">${s?.name||l.subject}${l.note?`<span style="font-size:11px;color:var(--text3);margin-left:6px">— ${l.note}</span>`:''}</div>
@@ -495,12 +489,16 @@ function renderHistory() {
 
 function renderSubjects() {
   document.getElementById('subjects-grid').innerHTML = SUBJECTS.map(s => {
-    const total=s.topics.length, done=s.topics.filter(t=>topicState[s.id]?.[t]).length;
-    const pct=total?Math.round(done/total*100):0;
+    const total = s.topics.length;
+    const done = s.topics.filter(t => topicState[s.id]?.[t]).length;
+    const pct = total ? Math.round(done/total*100) : 0;
     return `<div class="subj-card">
-      <div class="subj-header"><div class="subj-name">${s.name}</div><div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div></div>
+      <div class="subj-header">
+        <div class="subj-name">${s.name}</div>
+        <div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div>
+      </div>
       <div class="pbar-bg"><div class="pbar-fill" style="width:${pct}%;background:${s.color}"></div></div>
-      <div class="topics">${s.topics.map(t=>`
+      <div class="topics">${s.topics.map(t => `
         <label class="topic-row">
           <input type="checkbox" ${topicState[s.id]?.[t]?'checked':''} onchange="toggleTopic('${s.id}','${t.replace(/'/g,"\\'")}',this.checked)">
           <span class="topic-label ${topicState[s.id]?.[t]?'done':''}">${t}</span>
@@ -512,15 +510,16 @@ function renderSubjects() {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-function initStaticUI() {
+(function initStaticUI() {
   const sel = document.getElementById('log-subj');
-  SUBJECTS.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
+  SUBJECTS.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s.id; o.textContent = s.name;
+    sel.appendChild(o);
+  });
   document.getElementById('log-date').value = new Date().toISOString().split('T')[0];
   renderSubjects();
-}
-
-initStaticUI();
-bootApp();
+})();
 </script>
 </body>
 </html>
