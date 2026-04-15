@@ -308,7 +308,7 @@ db.auth.onAuthStateChange(async (event, session) => {
     return;
   }
 
-  if (event === 'SIGNED_IN' && session?.user && !dataLoaded) {
+  if (event === 'SIGNED_IN' && session?.user) {
     console.log('SIGNED_IN, loading app');
     await showApp(session.user);
     return;
