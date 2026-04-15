@@ -293,37 +293,35 @@ async function signOut() {
 // getSession() reads the persisted session from localStorage — works on refresh.
 // onAuthStateChange then handles sign-in / sign-out events.
 
-async function boot() {
-  try {
-    const { data: { session }, error } = await db.auth.getSession();
-    console.log('boot session:', session?.user?.email || 'none', error || '');
+db.auth.onAuthStateChange(async (event, session) => {
+  console.log('Auth event:', event, session?.user?.email || 'no user');
+
+  if (event === 'INITIAL_SESSION') {
     if (session?.user) {
+      console.log('Restoring session on load');
       await showApp(session.user);
     } else {
+      console.log('No session, showing login');
       document.getElementById('init-loader').style.display = 'none';
       document.getElementById('auth-screen').style.display = 'flex';
     }
-  } catch(e) {
-    console.error('boot error:', e);
-    document.getElementById('init-loader').style.display = 'none';
-    document.getElementById('auth-screen').style.display = 'flex';
+    return;
   }
-}
 
-db.auth.onAuthStateChange(async (event, session) => {
-  console.log('Auth event:', event, session?.user?.email);
-  if (event === 'SIGNED_IN' && session?.user) {
+  if (event === 'SIGNED_IN' && session?.user && !dataLoaded) {
+    console.log('SIGNED_IN, loading app');
     await showApp(session.user);
+    return;
   }
+
   if (event === 'SIGNED_OUT') {
+    console.log('Signed out');
     currentUser = null; logs = []; topicState = {}; dataLoaded = false;
     document.getElementById('app-screen').style.display = 'none';
     document.getElementById('auth-screen').style.display = 'flex';
     document.getElementById('init-loader').style.display = 'none';
   }
 });
-
-boot();
 
 async function showApp(user) {
   currentUser = user;
