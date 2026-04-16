@@ -14,6 +14,7 @@
     --info-bg: #e6f1fb; --info-text: #0c447c; --info-border: #85b7eb;
     --success-bg: #eaf3de; --success-text: #3b6d11; --success-border: #97c459;
     --danger-bg: #fcebeb; --danger-text: #791f1f; --danger-border: #f09595;
+    --warn-bg: #faeeda; --warn-text: #633806; --warn-border: #ef9f27;
     --radius: 8px; --radius-lg: 12px;
   }
   @media (prefers-color-scheme: dark) {
@@ -24,6 +25,7 @@
       --info-bg: #042c53; --info-text: #b5d4f4; --info-border: #185fa5;
       --success-bg: #173404; --success-text: #c0dd97; --success-border: #3b6d11;
       --danger-bg: #501313; --danger-text: #f7c1c1; --danger-border: #a32d2d;
+      --warn-bg: #412402; --warn-text: #fac775; --warn-border: #ba7517;
     }
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
@@ -44,7 +46,7 @@
   .msg { font-size: 13px; margin-top: 12px; padding: 10px 12px; border-radius: var(--radius); display: none; }
   .msg.error { background: var(--danger-bg); color: var(--danger-text); display: block; }
   .msg.success { background: var(--success-bg); color: var(--success-text); display: block; }
-  .app { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+  .app { max-width: 960px; margin: 0 auto; padding: 2rem 1rem; }
   .app-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
   .app-title { font-size: 20px; font-weight: 500; }
   .app-email { font-size: 13px; color: var(--text3); margin-top: 2px; }
@@ -97,10 +99,27 @@
   .toast.success { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
   .toast.error { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
   .toast.show { opacity: 1; }
+  /* Quiz tab styles */
+  .quiz-day-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .quiz-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .quiz-day-date { font-size: 14px; font-weight: 500; }
+  .quiz-score-badge { font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
+  .badge-pending { background: var(--warn-bg); color: var(--warn-text); border: 0.5px solid var(--warn-border); }
+  .badge-good { background: var(--success-bg); color: var(--success-text); border: 0.5px solid var(--success-border); }
+  .badge-bad { background: var(--danger-bg); color: var(--danger-text); border: 0.5px solid var(--danger-border); }
+  .quiz-topics { display: flex; flex-wrap: wrap; gap: 6px; }
+  .quiz-topic-pill { font-size: 12px; padding: 3px 10px; border-radius: 20px; background: var(--bg2); color: var(--text2); border: 0.5px solid var(--border); }
+  .quiz-stat-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .quiz-topic-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .quiz-topic-table th { text-align: left; font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px; border-bottom: 0.5px solid var(--border); }
+  .quiz-topic-table td { padding: 8px 8px; border-bottom: 0.5px solid var(--border); color: var(--text); }
+  .quiz-topic-table tr:last-child td { border-bottom: none; }
+  .pending-note { font-size: 12px; color: var(--text3); font-style: italic; }
   @media (max-width: 600px) {
     .metric-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
     .subjects-grid { grid-template-columns: 1fr; }
     .log-row { grid-template-columns: 1fr; }
+    .quiz-stat-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   }
 </style>
 </head>
@@ -146,8 +165,11 @@
       <button class="tab active" onclick="showTab('overview')">Overview</button>
       <button class="tab" onclick="showTab('topics')">Topics</button>
       <button class="tab" onclick="showTab('log')">Daily log</button>
+      <button class="tab" onclick="showTab('quiz')">Quiz results</button>
       <button class="tab" onclick="showTab('reports')">Reports</button>
     </div>
+
+    <!-- Overview -->
     <div id="tab-overview" class="section visible">
       <div class="metric-grid">
         <div class="metric"><div class="metric-label">Total hours logged</div><div class="metric-val" id="m-total">—</div><div class="metric-sub">across all subjects</div></div>
@@ -158,9 +180,13 @@
       <div class="section-title">Recent log</div>
       <div class="card" id="log-history"><div class="empty">No entries yet.</div></div>
     </div>
+
+    <!-- Topics -->
     <div id="tab-topics" class="section">
       <div class="subjects-grid" id="subjects-grid"></div>
     </div>
+
+    <!-- Daily log -->
     <div id="tab-log" class="section">
       <div class="card">
         <div class="section-title" style="margin-bottom:16px">Log a study session</div>
@@ -189,6 +215,28 @@
         <button class="btn-danger" onclick="clearAllData()">Clear all my data</button>
       </div>
     </div>
+
+    <!-- Quiz results -->
+    <div id="tab-quiz" class="section">
+      <div class="quiz-stat-grid" id="quiz-stat-grid">
+        <div class="metric"><div class="metric-label">Quizzes taken</div><div class="metric-val" id="qm-total">—</div><div class="metric-sub">total days</div></div>
+        <div class="metric"><div class="metric-label">Questions sent</div><div class="metric-val" id="qm-questions">—</div><div class="metric-sub">via Telegram</div></div>
+        <div class="metric"><div class="metric-label">Streak</div><div class="metric-val" id="qm-streak">—</div><div class="metric-sub">consecutive days</div></div>
+      </div>
+
+      <div class="section-title">Topic breakdown</div>
+      <div class="card" style="margin-bottom:1.5rem">
+        <table class="quiz-topic-table" id="quiz-topic-table">
+          <thead><tr><th>Topic</th><th>Questions sent</th></tr></thead>
+          <tbody><tr><td colspan="2" class="empty">No quiz data yet.</td></tr></tbody>
+        </table>
+      </div>
+
+      <div class="section-title">Day-wise history</div>
+      <div id="quiz-day-list"><div class="empty" style="padding:8px 0">No quizzes sent yet.</div></div>
+    </div>
+
+    <!-- Reports -->
     <div id="tab-reports" class="section">
       <div class="report-info">
         <strong>Weekly email reports</strong><br><br>
@@ -210,15 +258,9 @@
 <script>
 const SUPABASE_URL = 'https://qatcgxeemzptmxzgmiya.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhdGNneGVlbXpwdG14emdtaXlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4ODE5NTUsImV4cCI6MjA5MTQ1Nzk1NX0.mAKIHA9ogSLh7CsFfyP5HxEDr6xZ9DndK-h9y3pTnXM';
-
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    storageKey: 'upsc-auth',
-    storage: window.localStorage
-  }
+  auth: { persistSession: true, autoRefreshToken: true, storageKey: 'upsc-auth', storage: window.localStorage }
 });
 
 const SUBJECTS = [
@@ -235,9 +277,7 @@ const SUBJECTS = [
   {id:'sociology',name:'Sociology (Optional)',color:'#3C3489',topics:['Sociological thinkers','Social institutions','Social stratification','Social change','Indian society','Rural & agrarian society','Urban sociology','Tribal societies']},
 ];
 
-let logs = [], topicState = {}, selectedMood = 0, currentUser = null;
-
-// ── UI helpers ────────────────────────────────────────────────────────────────
+let logs = [], topicState = {}, quizResults = [], selectedMood = 0, currentUser = null;
 
 function el(id) { return document.getElementById(id); }
 
@@ -269,8 +309,6 @@ function showScreen(name) {
   el('app-screen').style.display = name === 'app' ? 'block' : 'none';
 }
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
-
 function switchAuthTab(tab) {
   document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active',(i===0&&tab==='signin')||(i===1&&tab==='signup')));
   el('auth-signin').style.display = tab==='signin' ? 'block' : 'none';
@@ -278,16 +316,14 @@ function switchAuthTab(tab) {
 }
 
 async function signIn() {
-  const email = el('si-email').value.trim();
-  const pass = el('si-pass').value;
+  const email = el('si-email').value.trim(), pass = el('si-pass').value;
   if (!email||!pass) { showMsg('si-msg','Please enter your email and password.','error'); return; }
   const { error } = await db.auth.signInWithPassword({ email, password: pass });
   if (error) showMsg('si-msg', error.message, 'error');
 }
 
 async function signUp() {
-  const email = el('su-email').value.trim();
-  const pass = el('su-pass').value;
+  const email = el('su-email').value.trim(), pass = el('su-pass').value;
   if (!email||!pass) { showMsg('su-msg','Please enter your email and password.','error'); return; }
   if (pass.length < 6) { showMsg('su-msg','Password must be at least 6 characters.','error'); return; }
   const { error } = await db.auth.signUp({ email, password: pass });
@@ -297,33 +333,20 @@ async function signUp() {
 
 el('signout-btn').addEventListener('click', async () => {
   await db.auth.signOut();
-  currentUser = null; logs = []; topicState = {};
+  currentUser = null; logs = []; topicState = {}; quizResults = [];
   showScreen('auth');
 });
 
-// ── App init — single entry point ─────────────────────────────────────────────
-// Strategy: call getSession() once on load. This synchronously reads from
-// localStorage and returns the session if one exists. No event waiting needed.
-// onAuthStateChange only used for sign-in / sign-out after initial load.
-
 async function initApp() {
   const { data, error } = await db.auth.getSession();
-  if (error) { console.error('getSession error:', error); showScreen('auth'); return; }
-  if (data.session) {
-    await loadUser(data.session.user);
-  } else {
-    showScreen('auth');
-  }
+  if (error) { showScreen('auth'); return; }
+  if (data.session) { await loadUser(data.session.user); }
+  else { showScreen('auth'); }
 }
 
 db.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_IN' && session?.user && !currentUser) {
-    loadUser(session.user);
-  }
-  if (event === 'SIGNED_OUT') {
-    currentUser = null; logs = []; topicState = {};
-    showScreen('auth');
-  }
+  if (event === 'SIGNED_IN' && session?.user && !currentUser) loadUser(session.user);
+  if (event === 'SIGNED_OUT') { currentUser = null; logs = []; topicState = {}; quizResults = []; showScreen('auth'); }
 });
 
 async function loadUser(user) {
@@ -331,56 +354,54 @@ async function loadUser(user) {
   el('app-email').textContent = user.email;
   el('report-email').textContent = user.email;
   showScreen('app');
-  logs = []; topicState = {};
-  await Promise.all([loadLogs(), loadTopics()]);
+  logs = []; topicState = {}; quizResults = [];
+  await Promise.all([loadLogs(), loadTopics(), loadQuizResults()]);
 }
 
-// ── Data ──────────────────────────────────────────────────────────────────────
-
 async function loadLogs() {
-  const { data, error } = await db
-    .from('logs').select('*')
+  const { data, error } = await db.from('logs').select('*')
     .eq('user_id', currentUser.id)
-    .order('date', {ascending:false})
-    .order('created_at', {ascending:false})
-    .limit(50);
-  if (error) { showToast('Error loading logs: '+error.message, 'error'); return; }
+    .order('date',{ascending:false}).order('created_at',{ascending:false}).limit(50);
+  if (error) { showToast('Error loading logs: '+error.message,'error'); return; }
   logs = data || [];
-  updateMetrics();
-  renderHistory();
+  updateMetrics(); renderHistory();
 }
 
 async function loadTopics() {
-  const { data, error } = await db
-    .from('topics').select('*')
-    .eq('user_id', currentUser.id);
-  if (error) { showToast('Error loading topics: '+error.message, 'error'); return; }
-  SUBJECTS.forEach(s => { topicState[s.id] = {}; s.topics.forEach(t => topicState[s.id][t] = false); });
-  (data||[]).forEach(r => { if (topicState[r.subject_id]) topicState[r.subject_id][r.topic] = r.done; });
-  renderSubjects();
-  updateMetrics();
+  const { data, error } = await db.from('topics').select('*').eq('user_id', currentUser.id);
+  if (error) { showToast('Error loading topics: '+error.message,'error'); return; }
+  SUBJECTS.forEach(s => { topicState[s.id]={}; s.topics.forEach(t => topicState[s.id][t]=false); });
+  (data||[]).forEach(r => { if(topicState[r.subject_id]) topicState[r.subject_id][r.topic]=r.done; });
+  renderSubjects(); updateMetrics();
+}
+
+async function loadQuizResults() {
+  const { data, error } = await db.from('quiz_results').select('*')
+    .eq('user_id', currentUser.id)
+    .order('quiz_date',{ascending:false});
+  if (error) { showToast('Error loading quiz results: '+error.message,'error'); return; }
+  quizResults = data || [];
+  renderQuiz();
 }
 
 async function addLog() {
-  const subj = el('log-subj').value;
-  const hrs = parseFloat(el('log-hrs').value);
-  const date = el('log-date').value;
-  const note = el('log-note').value.trim();
+  const subj=el('log-subj').value, hrs=parseFloat(el('log-hrs').value);
+  const date=el('log-date').value, note=el('log-note').value.trim();
   if (!subj||!hrs||!date||!selectedMood) { showToast('Fill in all fields and pick a productivity rating','error'); return; }
   const { data, error } = await db.from('logs')
     .insert([{user_id:currentUser.id,subject:subj,hours:hrs,date,mood:selectedMood,note}])
     .select().single();
   if (error) { showToast('Error saving: '+error.message,'error'); return; }
   logs.unshift(data);
-  el('log-note').value = ''; selectedMood = 0;
-  document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+  el('log-note').value=''; selectedMood=0;
+  document.querySelectorAll('.mood-btn').forEach(b=>b.classList.remove('active'));
   updateMetrics(); renderHistory(); showToast('Entry saved');
 }
 
 async function deleteLog(id) {
   const { error } = await db.from('logs').delete().eq('id',id).eq('user_id',currentUser.id);
   if (error) { showToast('Error deleting: '+error.message,'error'); return; }
-  logs = logs.filter(l => l.id !== id);
+  logs = logs.filter(l=>l.id!==id);
   updateMetrics(); renderHistory(); showToast('Entry deleted');
 }
 
@@ -390,7 +411,7 @@ async function toggleTopic(sid, topic, val) {
     {onConflict:'user_id,subject_id,topic'}
   );
   if (error) { showToast('Error saving topic: '+error.message,'error'); return; }
-  topicState[sid][topic] = val;
+  topicState[sid][topic]=val;
   updateMetrics(); renderSubjects();
   showToast(val ? 'Topic marked done' : 'Topic unmarked');
 }
@@ -399,61 +420,51 @@ async function clearAllData() {
   if (!confirm('This will permanently delete all your logs and topic progress. Are you sure?')) return;
   await db.from('logs').delete().eq('user_id',currentUser.id);
   await db.from('topics').delete().eq('user_id',currentUser.id);
-  logs = [];
-  SUBJECTS.forEach(s => { topicState[s.id]={}; s.topics.forEach(t => topicState[s.id][t]=false); });
+  logs=[];
+  SUBJECTS.forEach(s=>{topicState[s.id]={};s.topics.forEach(t=>topicState[s.id][t]=false);});
   updateMetrics(); renderHistory(); renderSubjects(); showToast('All data cleared');
 }
 
-// ── Reports ───────────────────────────────────────────────────────────────────
-
 async function sendTestReport() {
-  const btn = el('report-btn');
-  btn.disabled = true; btn.textContent = 'Sending...';
-  el('report-msg').className = 'msg';
+  const btn=el('report-btn');
+  btn.disabled=true; btn.textContent='Sending...';
+  el('report-msg').className='msg';
   try {
-    const { data: { session } } = await db.auth.refreshSession();
+    const { data:{session} } = await db.auth.refreshSession();
     if (!session) throw new Error('Session expired — please sign out and sign in again.');
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/weekly-report`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`,
-        'apikey': SUPABASE_KEY
-      },
-      body: JSON.stringify({user_id: currentUser.id, email: currentUser.email, test: true})
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/weekly-report`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${session.access_token}`,'apikey':SUPABASE_KEY},
+      body:JSON.stringify({user_id:currentUser.id,email:currentUser.email,test:true})
     });
-    const text = await res.text();
-    let json; try { json = JSON.parse(text); } catch { throw new Error('Server error: '+text.slice(0,100)); }
-    if (!res.ok) throw new Error(json.error || json.message || 'HTTP '+res.status);
+    const text=await res.text();
+    let json; try{json=JSON.parse(text);}catch{throw new Error('Server error: '+text.slice(0,100));}
+    if (!res.ok) throw new Error(json.error||json.message||'HTTP '+res.status);
     showMsg('report-msg','Report sent! Check your inbox.','success');
-  } catch(e) {
-    showMsg('report-msg','Failed: '+e.message,'error');
-  }
-  btn.disabled = false; btn.textContent = 'Send test report to my email';
+  } catch(e) { showMsg('report-msg','Failed: '+e.message,'error'); }
+  btn.disabled=false; btn.textContent='Send test report to my email';
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
-
 function updateMetrics() {
-  const total = logs.reduce((a,l) => a+parseFloat(l.hours), 0);
-  el('m-total').textContent = total.toFixed(1);
-  const today = new Date().toISOString().split('T')[0];
-  const tl = logs.filter(l => l.date===today);
-  el('m-today').textContent = tl.reduce((a,l) => a+parseFloat(l.hours),0).toFixed(1);
-  el('m-today-sub').textContent = tl.length ? tl.map(l=>SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', ') : 'nothing today';
+  const total=logs.reduce((a,l)=>a+parseFloat(l.hours),0);
+  el('m-total').textContent=total.toFixed(1);
+  const today=new Date().toISOString().split('T')[0];
+  const tl=logs.filter(l=>l.date===today);
+  el('m-today').textContent=tl.reduce((a,l)=>a+parseFloat(l.hours),0).toFixed(1);
+  el('m-today-sub').textContent=tl.length?tl.map(l=>SUBJECTS.find(s=>s.id===l.subject)?.name.split(' ')[0]).join(', '):'nothing today';
   let tt=0,dt=0;
   SUBJECTS.forEach(s=>s.topics.forEach(t=>{tt++;if(topicState[s.id]?.[t])dt++;}));
-  el('m-topics').textContent = tt ? Math.round(dt/tt*100)+'%' : '0%';
-  el('m-topics-sub').textContent = `${dt} of ${tt} topics`;
-  el('m-mood').textContent = logs.length ? (logs.reduce((a,l)=>a+l.mood,0)/logs.length).toFixed(1) : '—';
+  el('m-topics').textContent=tt?Math.round(dt/tt*100)+'%':'0%';
+  el('m-topics-sub').textContent=`${dt} of ${tt} topics`;
+  el('m-mood').textContent=logs.length?(logs.reduce((a,l)=>a+l.mood,0)/logs.length).toFixed(1):'—';
 }
 
 function renderHistory() {
-  const e = el('log-history');
-  if (!logs.length) { e.innerHTML = '<div class="empty">No entries yet — use the Daily log tab to get started.</div>'; return; }
-  e.innerHTML = logs.slice(0,15).map(l => {
-    const s = SUBJECTS.find(x=>x.id===l.subject);
-    const d = new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+  const e=el('log-history');
+  if (!logs.length){e.innerHTML='<div class="empty">No entries yet — use the Daily log tab to get started.</div>';return;}
+  e.innerHTML=logs.slice(0,15).map(l=>{
+    const s=SUBJECTS.find(x=>x.id===l.subject);
+    const d=new Date(l.date+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short'});
     return `<div class="hist-row">
       <div class="hist-date">${d}</div>
       <div class="hist-subj">${s?.name||l.subject}${l.note?`<span style="font-size:11px;color:var(--text3);margin-left:6px">— ${l.note}</span>`:''}</div>
@@ -465,8 +476,8 @@ function renderHistory() {
 }
 
 function renderSubjects() {
-  el('subjects-grid').innerHTML = SUBJECTS.map(s => {
-    const total=s.topics.length, done=s.topics.filter(t=>topicState[s.id]?.[t]).length;
+  el('subjects-grid').innerHTML=SUBJECTS.map(s=>{
+    const total=s.topics.length,done=s.topics.filter(t=>topicState[s.id]?.[t]).length;
     const pct=total?Math.round(done/total*100):0;
     return `<div class="subj-card">
       <div class="subj-header"><div class="subj-name">${s.name}</div><div style="font-size:13px;font-weight:500;color:${s.color}">${pct}%</div></div>
@@ -481,12 +492,80 @@ function renderSubjects() {
   }).join('');
 }
 
-// ── Bootstrap ─────────────────────────────────────────────────────────────────
+function renderQuiz() {
+  if (!quizResults.length) return;
+
+  // Summary metrics
+  const days = [...new Set(quizResults.map(r=>r.quiz_date))];
+  el('qm-total').textContent = days.length;
+  el('qm-questions').textContent = quizResults.length;
+
+  // Streak calculation
+  let streak = 0;
+  const today = new Date();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    const ds = d.toISOString().split('T')[0];
+    if (days.includes(ds)) streak++;
+    else if (i > 0) break;
+  }
+  el('qm-streak').textContent = streak;
+
+  // Topic breakdown table
+  const topicMap = {};
+  quizResults.forEach(r => {
+    const key = r.topic;
+    if (!topicMap[key]) topicMap[key] = { topic: r.topic, subject: r.subject_id, sent: 0 };
+    topicMap[key].sent++;
+  });
+
+  const topicRows = Object.values(topicMap).sort((a,b)=>b.sent-a.sent);
+  const tbody = el('quiz-topic-table').querySelector('tbody');
+  if (topicRows.length) {
+    tbody.innerHTML = topicRows.map(t => {
+      const subj = SUBJECTS.find(s=>s.id===t.subject);
+      return `<tr>
+        <td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${subj?.color||'#888'};margin-right:8px;vertical-align:middle"></span>${t.topic}</td>
+        <td>${t.sent}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Day-wise list
+  const byDay = {};
+  quizResults.forEach(r => {
+    if (!byDay[r.quiz_date]) byDay[r.quiz_date] = [];
+    byDay[r.quiz_date].push(r);
+  });
+
+  const dayList = el('quiz-day-list');
+  dayList.innerHTML = Object.entries(byDay)
+    .sort((a,b) => b[0].localeCompare(a[0]))
+    .map(([date, results]) => {
+      const d = new Date(date+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+      const topics = [...new Set(results.map(r=>r.topic))];
+      const answered = results.filter(r=>r.is_correct!==null).length;
+      const isPending = answered === 0;
+
+      return `<div class="quiz-day-card">
+        <div class="quiz-day-header">
+          <div class="quiz-day-date">${d}</div>
+          <span class="quiz-score-badge ${isPending?'badge-pending':'badge-good'}">
+            ${isPending ? `${results.length} questions sent` : `${answered}/${results.length} answered`}
+          </span>
+        </div>
+        <div class="quiz-topics">
+          ${topics.map(t=>`<span class="quiz-topic-pill">${t}</span>`).join('')}
+        </div>
+        ${isPending ? '<div class="pending-note" style="margin-top:8px">Answer on Telegram — results sync automatically once scoring is enabled.</div>' : ''}
+      </div>`;
+    }).join('');
+}
 
 (function initStaticUI() {
-  const sel = el('log-subj');
-  SUBJECTS.forEach(s => { const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
-  el('log-date').value = new Date().toISOString().split('T')[0];
+  const sel=el('log-subj');
+  SUBJECTS.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.name;sel.appendChild(o);});
+  el('log-date').value=new Date().toISOString().split('T')[0];
   renderSubjects();
 })();
 
